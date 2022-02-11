@@ -6,7 +6,7 @@ router.get("/", function (req, res, next) {
     res.render("index", { title: "Express" });
 });
 
-router.get("/driver", function (req, res, next) {
+router.get("/home", function (req, res, next) {
     res.render("driver", { title: "Driver" });
 });
 
