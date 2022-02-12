@@ -43,30 +43,38 @@ router.post('/login', async (req, res) => {
     });
     const saltRounds = 10;
 
-    const otpBody = {
+    var otpBody = {
         email: req.body.email,
     }
 
-    bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
-        otpBody.password = hash;
-    });
-
-    const otp = new otpModel(otpBody);
-
+    //sending the mail to user
     const details = {
         to: 'beastkun3@gmail.com',
         subject: 'One Time Password (OTP) for user login on rent-a-driver',
-        text: `Here is your One Time Password ${myPlaintextPassword}`
+        text: `Here is your One Time Password:- ${myPlaintextPassword}`
     }
+    await sendOtpMail(details);
 
-    try {
-		await otp.save();
-        sendOtpMail(details);
-		res.send(otp);
-	} catch (error) {
-		res.status(500).send(error);
-	}
+    //saving in the database
+    bcrypt.hash(myPlaintextPassword, saltRounds, async (err, hash) => {
+        otpBody.password = hash;
+        const otp = new otpModel(otpBody);
+
+        try {
+            await otp.save();
+            res.send(otp);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    });
 });
+
+router.post("/verify", async (req, res) => {
+    otpModel
+        .find({email: req.body.email})
+        .then(docs => res.json(docs))
+        .catch(err => res.send(err));
+})
 
 
 module.exports = router;
