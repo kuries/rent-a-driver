@@ -1,6 +1,17 @@
 const mongoose = require("mongoose");
 
 const DealerSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    default: "",
+  },
+  hashedPassword: {
+    type: String,
+    required: true,
+    maxLength: 100;
+  },
   name: {
     type: String,
     required: true,
