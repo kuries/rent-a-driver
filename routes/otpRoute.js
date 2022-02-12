@@ -34,6 +34,14 @@ async function sendOtpMail(details){
     })
 };
 
+router.get('/login/:designation', async (req, res) => {
+    const designation = req.params.designation;
+    if(designation == "driver" || designation == "dealer")
+        res.render("otpLogin", {designation: designation});
+    else
+        console.log("error");
+})
+
 router.post('/login', async (req, res) => {
     console.log(req.body);
     
@@ -49,7 +57,7 @@ router.post('/login', async (req, res) => {
 
     //sending the mail to user
     const details = {
-        to: 'beastkun3@gmail.com',
+        to: req.body.email,
         subject: 'One Time Password (OTP) for user login on rent-a-driver',
         text: `Here is your One Time Password:- ${myPlaintextPassword}`
     }
@@ -62,7 +70,7 @@ router.post('/login', async (req, res) => {
 
         try {
             await otp.save();
-            res.send(otp);
+            res.render("otpVerify", {email: req.body.email});
         } catch (error) {
             res.status(500).send(error);
         }
@@ -70,6 +78,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post("/verify", async (req, res) => {
+    console.log(req.body);
     otpModel
         .find({email: req.body.email})
         .then(docs => res.json(docs))

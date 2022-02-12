@@ -8,11 +8,8 @@ var mongoose = require("mongoose");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var foodRouter = require("./routes/foodRoutes");
-<<<<<<< HEAD
 var driverRouter = require("./routes/driverRoute");
-=======
 var otpRouter = require("./routes/otpRoute");
->>>>>>> 47bedab3b9a347b529893b8e25a87511f665e92d
 
 var app = express();
 
