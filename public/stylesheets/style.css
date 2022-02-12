@@ -77,3 +77,19 @@ a {
         /* margin-bottom: 30px; */
     }
 }
+
+/*--------------------------------------------------------------
+# card Section
+--------------------------------------------------------------*/
+
+#dcard {
+    margin-bottom: 20px;
+    padding-top: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.card {
+    margin: auto;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
