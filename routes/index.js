@@ -1,4 +1,6 @@
 var express = require("express");
+const dealerModel = require("../models/dealer");
+const driverModel = require("../models/driver");
 var router = express.Router();
 
 /* GET home page. */
