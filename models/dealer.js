@@ -10,7 +10,7 @@ const DealerSchema = new mongoose.Schema({
   hashedPassword: {
     type: String,
     required: true,
-    maxLength: 100;
+    maxLength: 100,
   },
   name: {
     type: String,

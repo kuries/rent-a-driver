@@ -8,6 +8,7 @@ var mongoose = require("mongoose");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var foodRouter = require("./routes/foodRoutes");
+var otpRouter = require("./routes/otpRoute");
 
 var app = express();
 
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/otp", otpRouter);
 app.use("/foodRoute", foodRouter);
 
 //mongoose connection
