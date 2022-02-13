@@ -29,7 +29,7 @@ function unauthenticateDealer(req, res, next)
 }
 
 router.get('/register', unauthenticateDealer, function(req, res, next) {
-    res.render('dealer_register');
+    res.render('dealer_register', {check: false});
 });
 
 router.post("/register", async function (req, res) {
@@ -61,12 +61,14 @@ router.get("/", authenticateDealer, async function (req, res) {
         title: "Dealer",
         name: val.name,
         result: data,
+        check: true
     });
 });
 
 router.get('/login', unauthenticateDealer, function(req, res, next) {
   res.render('login', {
-      id: "dealer"
+      id: "dealer",
+      check: false
   });
 });
 
