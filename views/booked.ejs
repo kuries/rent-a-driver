@@ -15,12 +15,12 @@
                 <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-pills">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/dealer">Avaliable Driver</a>
+                            <a class="nav-link" href="/dealer">Avaliable Driver</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/dealer/booked">Booked Driver</a>
+                            <a class="nav-link active" href="#">Booked Driver</a>
                         </li>
                     </ul>
                     <% if (check == true) { %>
@@ -64,7 +64,7 @@
         <section class="dcard" id="dcard">
             <div class="container">
                 <div class="row">
-                    <p class="lead d-flex justify-content-start">Available drivers: </p>
+                    <p class="lead d-flex justify-content-start">Booked drivers: </p>
                     <% for(var i = 0; i < result.length; i++) { %>
                         <div class="card md-3" style="width: 20rem;">
                             <div class="card-body">
