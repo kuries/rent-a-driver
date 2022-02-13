@@ -51,10 +51,15 @@ const DriverSchema = new mongoose.Schema({
     min: 0,
     default: 0,
   },
-  routes: {
-    type: [[String]],
+  from: {
+    type: [String],
     required: true,
-    default: [['']],
+    default: [],
+  },
+  to: {
+    type: [String],
+    required: true,
+    default: [],
   },
   relation: {
     type: [String],
