@@ -1,9 +1,5 @@
 var express = require("express");
-<<<<<<< HEAD
-// const { routes } = require("../app");
-=======
 const bcrypt = require("bcrypt");
->>>>>>> 58824b9269fac8391f38c962a8fbb58ff25077d5
 const dealerModel = require("../models/dealer");
 const driverModel = require("../models/driver");
 var router = express.Router();
