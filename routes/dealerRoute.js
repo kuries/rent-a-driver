@@ -1,5 +1,9 @@
 var express = require("express");
+<<<<<<< HEAD
 // const { routes } = require("../app");
+=======
+const bcrypt = require("bcrypt");
+>>>>>>> 58824b9269fac8391f38c962a8fbb58ff25077d5
 const dealerModel = require("../models/dealer");
 const driverModel = require("../models/driver");
 var router = express.Router();
@@ -75,6 +79,7 @@ router.get('/login', unauthenticateDealer, function(req, res, next) {
 });
 
 router.post('/login', async function(req, res) {
+    console.log(req.body.email);
 	const user = dealerModel.findOne({ email: req.body.email }).exec();
 	var isValid = await user.then(docs => {
         return bcrypt
