@@ -45,7 +45,9 @@ router.post("/register", async function (req, res) {
 
 //render when dealer is authenticated
 router.get("/", authenticateDealer, async function (req, res) {
-    const val = await dealerModel.findOne({ email: "asdf@gmail.com" }).exec();
+    const val = await dealerModel
+        .findOne({ email: "test0008@gmail.com" })
+        .exec();
     const data = await driverModel.find({}).exec();
     // console.log(data);
 
@@ -58,7 +60,9 @@ router.get("/", authenticateDealer, async function (req, res) {
 });
 
 router.get("/booked", authenticateDealer, async function (req, res) {
-    const val = await dealerModel.findOne({ email: "asdf@gmail.com" }).exec();
+    const val = await dealerModel
+        .findOne({ email: "test0008@gmail.com" })
+        .exec();
     const data = await driverModel.find({}).exec();
     // console.log(data);
 

@@ -10,7 +10,24 @@ body {
     background-attachment: fixed;
     background-size: cover;
 }
-
+.nav-pills .nav-link.active {
+    background-color: grey !important;
+    /* background: yellow !important; */
+    border-color: rgb(194, 103, 0);
+    border: 0.5px solid;
+}
+@media (max-width: 992px) {
+    .navbar-nav.nav-pills {
+        display: block;
+        text-align: center;
+        text-transform: capitalize;
+        justify-content: center;
+        padding-top: 10px;
+    }
+    .largescreen {
+        display: none;
+    }
+}
 /*--------------------------------------------------------------
 # usr_inf Section
 --------------------------------------------------------------*/
@@ -99,5 +116,9 @@ body {
 }
 
 /*--------------------------------------------------------------
-# box
+# search_sel
 --------------------------------------------------------------*/
+
+.search_sel {
+    padding: 10px;
+}
