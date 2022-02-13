@@ -1,41 +1,32 @@
 var express = require("express");
+const bcrypt = require("bcrypt");
 const dealerModel = require("../models/dealer");
 const driverModel = require("../models/driver");
 var router = express.Router();
 
-//authentication functions
-function authenticateDealer(req, res, next)
-{
-	if(req.session.email && req.session.designation == "dealer")
-	{
-		next();
-	}
-	else
-	{
-		return res.redirect('/');
-	}
+function authenticateDealer(req, res, next) {
+    if (req.session.email && req.session.designation == "dealer") {
+        next();
+    } else {
+        return res.redirect("/");
+    }
 }
 
-function unauthenticateDealer(req, res, next)
-{
-	if(req.session.email && req.session.designation == "dealer")
-	{
-		return res.redirect('/');
-	}
-	else
-	{
-		next();
-	}
+function unauthenticateDealer(req, res, next) {
+    if (req.session.email && req.session.designation == "dealer") {
+        return res.redirect("/");
+    } else {
+        next();
+    }
 }
 
-//functions for handling registeration of dealers
-router.get('/register', unauthenticateDealer, function(req, res, next) {
-    res.render('dealer_register');
+router.get("/register", unauthenticateDealer, function (req, res, next) {
+    res.render("dealer_register", { check: false });
 });
 
 router.post("/register", async function (req, res) {
     hashedPassword = await bcrypt.hash(req.body.password, 10);
-	req.body.password = hashedPassword;
+    req.body.password = hashedPassword;
     const new_dealer = new dealerModel(req.body);
 
     new_dealer.save(function (err, result) {
@@ -63,6 +54,7 @@ router.get("/", authenticateDealer, async function (req, res) {
         title: "Dealer",
         name: dealerEntry.name,
         result: driverEntry,
+        check: true
     });
 });
 
@@ -73,29 +65,30 @@ router.post("/", async (req, res) => {
 });
 
 //functions for handling login for dealers
-router.get('/login', unauthenticateDealer, function(req, res, next) {
-  res.render('login', {
-      id: "dealer"
-  });
+router.get("/login", unauthenticateDealer, function (req, res, next) {
+    res.render("login", {
+        id: "dealer",
+        check: false,
+    });
 });
 
-router.post('/login', async function(req, res) {
-	const user = dealerModel.findOne({ email: req.body.email }).exec();
-	var isValid = await user.then(docs => {
+router.post("/login", async function (req, res) {
+    console.log(req.body.email);
+    const user = dealerModel.findOne({ email: req.body.email }).exec();
+    var isValid = await user.then((docs) => {
         return bcrypt
             .compare(req.body.password, docs.password)
-            .then(result => {
+            .then((result) => {
                 return result;
             })
-            .catch (err => console.log(err) )
+            .catch((err) => console.log(err));
     });
-	if (isValid)
-	{
-		req.session.email = req.body.email;
-		req.session.designation = 'dealer';
-		req.session.save();
-		res.redirect('/dealer');
-	}
+    if (isValid) {
+        req.session.email = req.body.email;
+        req.session.designation = "dealer";
+        req.session.save();
+        res.redirect("/dealer");
+    }
 });
 
 //function for postman

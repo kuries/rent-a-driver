@@ -27,12 +27,12 @@ function unauthenticateDriver(req, res, next)
 	}
 }
 
-router.get('/', authenticateDriver,function(req, res, next) {
-  res.render('driver', {title: 'Driver'});
+router.get('/', authenticateDriver, function(req, res, next) {
+  res.render('driver', {title: 'Driver', check: true});
 })
 
 router.get('/register', unauthenticateDriver, function(req, res, next) {
-    res.render('driver_register');
+    res.render('driver_register', {check: false});
 });
 
 router.post('/register', async function(req, res) {
@@ -59,7 +59,8 @@ router.post('/register', async function(req, res) {
 
 router.get('/login', unauthenticateDriver, function(req, res, next) {
   res.render('login', {
-	  id: "driver"
+	  id: "driver",
+	  check: false
   });
 });
 
