@@ -2,7 +2,32 @@ var express = require("express");
 const dealerModel = require("../models/dealer");
 var router = express.Router();
 
-router.get('/register', function(req, res, next) {
+
+function authenticateDealer(req, res, next)
+{
+	if(req.session.email && req.session.designation == "dealer")
+	{
+		next();
+	}
+	else
+	{
+		return res.redirect('/');
+	}
+}
+
+function unauthenticateDealer(req, res, next)
+{
+	if(req.session.email && req.session.designation == "dealer")
+	{
+		return res.redirect('/');
+	}
+	else
+	{
+		next();
+	}
+}
+
+router.get('/register', unauthenticateDealer, function(req, res, next) {
     res.render('driver_register');
 });
 
@@ -19,8 +44,8 @@ router.post('/register', async function(req, res) {
     res.redirect('/dealer/login')
 });
 
-
-router.get('/', function(req, res, next) {
+	//render when dealer is authenticated
+router.get('/', authenticateDealer, function(req, res, next) {
   res.render('driver', {title: 'Dealer'});
 })
 
@@ -49,7 +74,7 @@ router.post('/register', function(req, res) {
   });
 });
 
-router.get('/login', function(req, res, next) {
+router.get('/login', unauthenticateDealer, function(req, res, next) {
   res.render('login');
 });
 

@@ -2,12 +2,13 @@
 const nodemailer = require("nodemailer");
 const generator = require("generate-password");
 const bcrypt = require("bcrypt");
+const flash = require('connect-flash');
 
 //importing models and express router
 const express = require("express");
 const otpModel = require("../models/otp");
-const Dealer = require("../models/dealer");
-const Driver = require("../models/driver");
+const DealerModel = require("../models/dealer");
+const DriverModel = require("../models/driver");
 
 var router = express.Router();
 
@@ -45,9 +46,22 @@ router.get('/login/:designation', async (req, res) => {
         console.log("error");
 })
 
+
 router.post('/login', async (req, res) => {
     // console.log(req.body);
+    var checkmail = req.body.email;
+    // var desig = req.body.designation;
     
+    //check the dealer and driver db
+    var ret_dealer = await DealerModel.findOne({email: checkmail}).exec();
+
+    var ret_driver = await DriverModel.findOne({email: checkmail}).exec();
+
+    if(!ret_dealer && !ret_driver)
+    {
+        res.render('/', {err_msg: "Email not registered"});
+    }
+
     const myPlaintextPassword = generator.generate({
         length: 6,
         numbers: true
@@ -109,11 +123,6 @@ router.post("/verify", async (req, res) =>
     if(isValid)
     {
         console.log(email,designation);
-
-        // req.session.user = {
-        //     email: email,
-        //     designation: designation
-        // }
         req.session.email = email;
         req.session.designation = designation;
         req.session.save();
@@ -124,7 +133,6 @@ router.post("/verify", async (req, res) =>
     {
         console.log("err")
     }
-
 })
 
 
