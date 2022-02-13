@@ -18,7 +18,10 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var foodRouter = require("./routes/foodRoutes");
 var driverRouter = require("./routes/driverRoute");
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 var dealerRouter = require("./routes/dealerRoute");
 var otpRouter = require("./routes/otpRoute");
 
@@ -53,8 +56,11 @@ app.use("/users", usersRouter);
 app.use("/foodRoute", foodRouter);
 app.use("/driver", driverRouter);
 app.use("/dealer", dealerRouter);
+<<<<<<< Updated upstream
 
 app.use("/otp", otpRouter);
+=======
+>>>>>>> Stashed changes
 
 //mongoose connection
 mongoose.connect(
