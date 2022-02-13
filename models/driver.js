@@ -7,7 +7,7 @@ const DriverSchema = new mongoose.Schema({
     unique: true,
     default: "",
   },
-  hashedPassword: {
+  password: {
     type: String,
     required: true,
     maxLength: 100,
@@ -54,8 +54,12 @@ const DriverSchema = new mongoose.Schema({
   routes: {
     type: [[String]],
     required: true,
-    default: [['', '']],
+    default: [['']],
   },
+  relation: {
+    type: [[String]],
+    default: [['']],
+  }
 });
 
 

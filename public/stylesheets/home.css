@@ -1,0 +1,57 @@
+body {
+    background: linear-gradient(rgba(255,255,255,.7), rgba(255, 255, 255, 0.7)), url('/img/background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;   
+}
+
+.container { 
+    height: 500px;
+    position: relative;
+}
+  
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.button {
+    border: none;
+    width: 100px;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.leftbtn {
+    padding-right: 5px;
+}
+
+.button1 {
+    background-color: #008CBA; 
+    color: white;
+}
+  
+.button1:hover {
+    background-color: white;
+    color: #008CBA;
+}
+
+.button2 {
+    background-color: white; 
+    color: #008CBA; 
+}
+  
+.button2:hover {
+    background-color: #008CBA;
+    color: white;
+}
