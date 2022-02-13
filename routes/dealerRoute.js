@@ -1,5 +1,5 @@
 var express = require("express");
-const driverModel = require("../models/driver");
+const dealerModel = require("../models/dealer");
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -7,13 +7,28 @@ router.get('/', function(req, res, next) {
 })
 
 router.get('/register', function(req, res, next) {
-    res.render('dealer_register');
+  res.render('dealer_register');
 });
 
 router.post('/register', function(req, res) {
-  var email = req.body.email;
-  var password = req.body.password;
   
+  const new_dealer = new dealerModel(req.body);
+	new_dealer.save(function(err, result) {
+    if (err)
+    {
+      if(err.name == 'ValidationError') {
+        for (field in err.errors)
+        {
+          console.log(err.errors[field].message);
+        }
+      }
+    }
+    else
+    {
+      console.log('Success');
+      return res.redirect('/dealer');
+    }
+  });
 });
 
 router.get('/login', function(req, res, next) {
