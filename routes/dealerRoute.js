@@ -1,9 +1,14 @@
 var express = require("express");
 const dealerModel = require("../models/dealer");
+const driverModel = require("../models/driver");
 var router = express.Router();
 
 router.get("/", function (req, res, next) {
-    res.render("dealer", { title: "Dealer" });
+    const data = driverModel.find({}, (err, data) => {
+        if (err) {
+            console.log(err);
+        } else res.render("dealer", { title: "Dealer", result: data });
+    });
 });
 
 router.get("/register", function (req, res, next) {
@@ -28,6 +33,16 @@ router.post("/register", function (req, res) {
 
 router.get("/login", function (req, res, next) {
     res.render("login");
+});
+
+router.get("/data", async (request, response) => {
+    const data = await dealerModel.find({});
+
+    try {
+        response.send(data);
+    } catch (error) {
+        response.status(500).send(error);
+    }
 });
 
 module.exports = router;
