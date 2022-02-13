@@ -2,7 +2,7 @@
 const nodemailer = require("nodemailer");
 const generator = require("generate-password");
 const bcrypt = require("bcrypt");
-const flash = require('connect-flash');
+const flash = require("connect-flash");
 
 //importing models and express router
 const express = require("express");
@@ -12,73 +12,69 @@ const DriverModel = require("../models/driver");
 
 var router = express.Router();
 
-async function sendOtpMail(details){
-
+async function sendOtpMail(details) {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: 'noreply.rentadriver4@gmail.com',
-            pass: 'rentadriver4'
-        }
+            user: "noreply.rentadriver4@gmail.com",
+            pass: "rentadriver4",
+        },
     });
-    
+
     const options = {
-        from: 'noreply.rentadriver4@gmail.com',
+        from: "noreply.rentadriver4@gmail.com",
         to: details.to,
         subject: details.subject,
-        text: details.text
-    }
-    
+        text: details.text,
+    };
+
     transporter.sendMail(options, (err, info) => {
-        if(err){
+        if (err) {
             console.log(err);
             return;
         }
         // console.log("Sent: " + info.response);
-    })
-};
+    });
+}
 
-router.get('/login/:designation', async (req, res) => {
+router.get("/login/:designation", async (req, res) => {
     const designation = req.params.designation;
-    if(designation == "driver" || designation == "dealer")
-        res.render("otpLogin", {designation: designation});
-    else
-        console.log("error");
-})
+    if (designation == "driver" || designation == "dealer")
+        res.render("otpLogin", { designation: designation });
+    else console.log("error");
+});
 
-
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
     // console.log(req.body);
     var checkmail = req.body.email;
     // var desig = req.body.designation;
-    
+
     //check the dealer and driver db
-    var ret_dealer = await DealerModel.findOne({email: checkmail}).exec();
+    var ret_dealer = await DealerModel.findOne({ email: checkmail }).exec();
 
-    var ret_driver = await DriverModel.findOne({email: checkmail}).exec();
+    var ret_driver = await DriverModel.findOne({ email: checkmail }).exec();
 
-    if(!ret_dealer && !ret_driver)
-    {
-        res.render('/', {err_msg: "Email not registered"});
+    if (!ret_dealer && !ret_driver) {
+        res.render("/", { err_msg: "Email not registered" });
     }
 
     const myPlaintextPassword = generator.generate({
         length: 6,
-        numbers: true
+        numbers: true,
     });
     const saltRounds = 10;
 
     var otpBody = {
         email: req.body.email,
-        designation: req.body.designation
-    }
+        designation: req.body.designation,
+    };
 
     //sending the mail to user
     const details = {
         to: req.body.email,
-        subject: 'One Time Password (OTP) for user login on rent-a-driver',
-        text: `Here is your One Time Password:- ${myPlaintextPassword}`
-    }
+        subject: "One Time Password (OTP) for user login on rent-a-driver",
+        text: `Here is your One Time Password:- ${myPlaintextPassword}`,
+    };
     console.log(myPlaintextPassword);
     await sendOtpMail(details);
 
@@ -89,51 +85,45 @@ router.post('/login', async (req, res) => {
 
         try {
             await otp.save();
-            res.render("otpVerify", {email: req.body.email});
+            res.render("otpVerify", { email: req.body.email });
         } catch (error) {
             res.status(500).send(error);
         }
     });
 });
 
-router.post("/verify", async (req, res) => 
-{
+router.post("/verify", async (req, res) => {
     var email, designation;
     var result = otpModel
-        .findOne({email: req.body.email})
-        .then(docs => {
+        .findOne({ email: req.body.email })
+        .then((docs) => {
             email = docs.email;
             designation = docs.designation;
-            return (docs);
+            return docs;
         })
-        .catch(err => res.send(err));
-    
-    
-    var isValid = await result.then(docs => {
+        .catch((err) => res.send(err));
+
+    var isValid = await result.then((docs) => {
         console.log(typeof docs);
         console.log(docs.password);
         return bcrypt
             .compare(req.body.password, docs.password)
-            .then(result => {
+            .then((result) => {
                 return result;
             })
-            .catch (err => console.log(err) )
+            .catch((err) => console.log(err));
     });
-    console.log(isValid)
-    if(isValid)
-    {
-        console.log(email,designation);
+    console.log(isValid);
+    if (isValid) {
+        console.log(email, designation);
         req.session.email = email;
         req.session.designation = designation;
         req.session.save();
         console.log(req.session.user);
-        res.redirect('/');
+        res.redirect("/");
+    } else {
+        console.log("err");
     }
-    else
-    {
-        console.log("err")
-    }
-})
-
+});
 
 module.exports = router;
