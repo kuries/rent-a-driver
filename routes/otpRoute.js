@@ -6,6 +6,9 @@ const bcrypt = require("bcrypt");
 //importing models and express router
 const express = require("express");
 const otpModel = require("../models/otp");
+const Dealer = require("../models/dealer");
+const Driver = require("../models/driver");
+
 var router = express.Router();
 
 async function sendOtpMail(details){
@@ -53,6 +56,7 @@ router.post('/login', async (req, res) => {
 
     var otpBody = {
         email: req.body.email,
+        designation: req.body.designation
     }
 
     //sending the mail to user
@@ -81,7 +85,12 @@ router.post("/verify", async (req, res) => {
     console.log(req.body);
     otpModel
         .find({email: req.body.email})
-        .then(docs => res.json(docs))
+        .then(docs => {
+            if(docs.designation == "driver")
+            {
+
+            }
+        })
         .catch(err => res.send(err));
 })
 
