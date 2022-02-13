@@ -55,9 +55,11 @@ router.get("/", authenticateDealer, async function (req, res) {
         ]
     }).exec();
 
+	//truncate data to relavant values
     res.render("dealer", {
         title: "Dealer",
         name: dealerEntry.name,
+        email: dealerEntry.email,
         result: driverEntry,
         check: true
     });
@@ -72,11 +74,36 @@ router.post("/", async (req, res) => {
         ]
     }).exec();
 
+    res.render("dealer", {
+        title: "Dealer",
+        name: dealerEntry.name,
+        email: dealerEntry.email,
+        result: driverEntry,
+        check: true
+    });
+});
+
+
+router.get("/booked", authenticateDealer, async function (req, res) {
+    const dealerEntry = await dealerModel.findOne({ email: req.session.email }).exec();
+    // console.log(data);
+	var emailAddresses = dealerEntry.relation;
+	var data= new Array();
+	for (var i of emailAddresses)
+	{
+		if(i=="")
+		continue;
+		else{
+			var value = await driverModel.findOne({email: i}).exec();
+			data.push(value);
+		}
+
+	}
 
     res.render("dealer", {
         title: "Dealer",
         name: dealerEntry.name,
-        result: driverEntry,
+        result: data,
         check: true
     });
 });
@@ -118,5 +145,25 @@ router.get("/data", async (request, response) => {
         response.status(500).send(error);
     }
 });
+
+//display booked drivers
+router.post('/bookDriver', authenticateDealer, async function(req, res, next){
+	var driver_email = req.body.email;
+	var dealer_email = req.session.email;
+	console.log(driver_email);
+	// var query = {email: dealer_email};
+	// console.log(email)
+	const doc = await dealerModel.findOne({email: dealer_email}).exec();
+	var val = doc.relation;
+	
+	var arr = [...val, driver_email];
+	console.log(arr)
+
+	dealerModel.findOneAndUpdate({email: dealer_email}, {relation : arr}, {upsert: false}, function(err, doc) {
+		if (err) return res.send(500, {error: err});
+		return res.redirect('/');
+	});
+
+})
 
 module.exports = router;
