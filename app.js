@@ -9,6 +9,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var foodRouter = require("./routes/foodRoutes");
 var driverRouter = require("./routes/driverRoute");
+var dealerRouter = require("./routes/dealerRoute");
 var otpRouter = require("./routes/otpRoute");
 
 var app = express();
@@ -28,6 +29,7 @@ app.use("/users", usersRouter);
 app.use("/otp", otpRouter);
 app.use("/foodRoute", foodRouter);
 app.use("/driver", driverRouter);
+app.use("/dealer", dealerRouter);
 
 //mongoose connection
 mongoose.connect(
