@@ -100,10 +100,10 @@ router.get("/booked", authenticateDealer, async function (req, res) {
 
 	}
 
-    res.render("dealer", {
+    res.render("booked", {
         title: "Dealer",
         name: dealerEntry.name,
-        result: data,
+        result: data, 
         check: true
     });
 });
