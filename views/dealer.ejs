@@ -14,24 +14,73 @@
         <section class="usr_inf" id="usr_inf" >
             <div class="container position-relative">
                 <div class="row">
-                    <h1><%= title %></h1>
-                    <h2>Your Name: <%= title %></h2>
-                    <p>Welcome to <%= title %></p>
+                    <!-- <h1><%= title %></h1> -->
+                    <h2>Your Name: <%= name %></h2>
+                    <!-- <p>Welcome to <%= title %></p> -->
                 </div>
             </div>
         </section>
 
-        <section>
-            <select id="stateSelect" size="1" onchange="makeSubmenu(this.value)">
-                <option value="" disabled selected>Choose State</option>
-            </select>
+        <section class="search_sel">
+            <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-end">
+                <select class="btn btn-info" id="stateSelect" size="1" onchange="makeSubmenu(this.value)">
+                    <option value="" disabled selected>Choose State</option>
+                </select>
+    
+                <select class="btn btn-secondary" id="citySelect" size="1" >
+                    <option value="" disabled selected>Choose City</option>
+                    <option></option>
+                </select>
+                
+                <button class="btn btn-dark" onclick="displaySelected()">Show</button>
+            </div>
+        </section>
 
-            <select id="citySelect" size="1" >
-                <option value="" disabled selected>Choose City</option>
-                <option></option>
-            </select>
-            
-            <button onclick="displaySelected()">show selected</button>
+        <!-- Driver Card -->
+        <section class="dcard" id="dcard">
+            <div class="container">
+                <div class="row">
+                    <p class="lead d-flex justify-content-start">Available drivers: </p>
+                    <% for(var i = 0; i < result.length; i++) { %>
+                        <div class="card md-3" style="width: 20rem;">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= result[i].name %></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Vehicle Number: <%= result[i].truckNo %></h6>
+                                <p class="card-text">Route Details</p>
+                                <a href="#" class="card-link btn btn-warning">Book Now</a>
+                                <!-- Button trigger modal -->
+                                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModal<%= i %>">View</a>
+                                
+                                <!-- Modal -->
+                                
+                                <div class="modal fade" id="detailsModal<%= i %>" tabindex="-1" aria-labelledby="detailsModalLabe<%= i %>" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="detailsModalLabel<%= i %>"><%= result[i].name %></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h6 class="mb-2">Email: <%= result[i].email %></h6>
+                                            <h6 class="mb-2">Age: <%= result[i].age %></h6>
+                                            <h6 class="mb-2">Mobile: <%= result[i].mobileNo %></h6>
+                                            <h6 class="mb-2">Vehicle Number: <%= result[i].truckNo %></h6>
+                                            <h6 class="mb-2">Truck Capacity: <%= result[i].truckCapacity %></h6>
+                                            <h6 class="mb-2">Transpoter Name: <%= result[i].transpoterName %></h6>
+                                            <h6 class="mb-2">Driving Experience: <%= result[i].drivingExp %></h6>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-warning">Book Now</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
         </section>
 
 

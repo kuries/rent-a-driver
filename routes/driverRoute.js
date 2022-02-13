@@ -37,25 +37,31 @@ router.get('/register', unauthenticateDriver, function(req, res, next) {
 router.post('/register', function(req, res) {
   const new_driver = new driverModel(req.body);
 	new_driver.save(function(err, result) {
-    if (err)
-    {
-      if(err.name == 'ValidationError') {
-        for (field in err.errors)
-        {
-          console.log(err.errors[field].message);
-        }
-      }
-    }
-    else
-    {
-      console.log('Success');
-      return res.redirect('/driver');
-    }
-  });
+		if (err)
+		{
+			if(err.name == 'ValidationError') 
+			{
+				for (field in err.errors)
+				{
+				console.log(err.errors[field].message);
+				}
+			}
+		}
+	});
 });
 
 router.get('/login', unauthenticateDriver, function(req, res, next) {
   res.render('login');
+});
+
+router.get("/data", async (request, response) => {
+    const data = await driverModel.find({});
+
+    try {
+        response.send(data);
+    } catch (error) {
+        response.status(500).send(error);
+    }
 });
 
 module.exports = router;
