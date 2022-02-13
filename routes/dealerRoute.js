@@ -3,11 +3,15 @@ const dealerModel = require("../models/dealer");
 const driverModel = require("../models/driver");
 var router = express.Router();
 
-router.get("/", function (req, res, next) {
-    const data = driverModel.find({}, (err, data) => {
-        if (err) {
-            console.log(err);
-        } else res.render("dealer", { title: "Dealer", result: data });
+router.get("/", async function (req, res, next) {
+    const val = await dealerModel.findOne({ email: "asdf@gmail.com" }).exec();
+    const data = await driverModel.find({}).exec();
+    // console.log(data);
+
+    res.render("dealer", {
+        title: "Dealer",
+        name: val.name,
+        result: data,
     });
 });
 
