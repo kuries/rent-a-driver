@@ -15,9 +15,9 @@
                 <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-pills">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/dealer">Avaliable Driver</a>
+                            <a class="nav-link active" href="#">Avaliable Driver</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/dealer/booked">Booked Driver</a>
@@ -71,7 +71,16 @@
                                 <h5 class="card-title"><%= result[i].name %></h5>
                                 <h6 class="card-subtitle mb-2 text-muted">Vehicle Number: <%= result[i].truckNo %></h6>
                                 <p class="card-text">Route Details</p>
-                                <a href="#" class="card-link btn btn-warning">Book Now</a>
+                                <!-- <a href="#" class="card-link btn btn-warning">Book Now</a> -->
+                                <form action="/dealer/bookDriver" method="POST">
+                                    <div>
+                                      <input type="hidden" name="email" id="say" value="<%= result[i].email %>">
+                                      
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="btn btn-warning">Book Now</button>
+                                    </div>
+                                </form>
                                 <!-- Button trigger modal -->
                                 <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModal<%= i %>">View</a>
                                 
@@ -95,7 +104,8 @@
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-warning">Book Now</button>
+                                        
+                                        
                                         </div>
                                     </div>
                                     </div>
