@@ -21,71 +21,37 @@
             </div>
         </section>
 
-        <section>
-            <select id="stateSelect" size="1" onchange="makeSubmenu(this.value)">
-                <option value="" disabled selected>Choose State</option>
-            </select>
-
-            <select id="citySelect" size="1" >
-                <option value="" disabled selected>Choose City</option>
-                <option></option>
-            </select>
-            
-            <button onclick="displaySelected()">show selected</button>
+        <section class="search_sel">
+            <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-end">
+                <select class="btn btn-info" id="stateSelect" size="1" onchange="makeSubmenu(this.value)">
+                    <option value="" disabled selected>Choose State</option>
+                </select>
+    
+                <select class="btn btn-secondary" id="citySelect" size="1" >
+                    <option value="" disabled selected>Choose City</option>
+                    <option></option>
+                </select>
+                
+                <button class="btn btn-dark" onclick="displaySelected()">Show</button>
+            </div>
         </section>
 
-        <!-- Driver Card
+        <!-- Driver Card -->
         <section class="dcard" id="dcard">
             <div class="container">
                 <div class="row">
+                    <p class="lead d-flex justify-content-start">Available drivers: </p>
                     <div class="card md-3" style="width: 18rem;">
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
+                            <h5 class="card-title">Driver Name:</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Vehicle Number:</h6>
+                            <p class="card-text">Route Details</p>
+                            <a href="#" class="card-link btn btn-warning">Book Now</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </section> -->
+        </section>
 
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>

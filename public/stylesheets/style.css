@@ -89,3 +89,16 @@ body {
     margin-bottom: 50px;
     margin-top: 50px;
 }
+
+/*--------------------------------------------------------------
+# Search Selection
+--------------------------------------------------------------*/
+
+.search_sel {
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+}
