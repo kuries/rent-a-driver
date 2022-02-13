@@ -48,7 +48,12 @@ router.post("/register", async function (req, res) {
 //render when dealer is authenticated
 router.get("/", authenticateDealer, async function (req, res) {
     const dealerEntry = await dealerModel.findOne({ email: req.session.email }).exec();
-    const driverEntry = await driverModel.find({}).exec();
+    const driverEntry = await driverModel.find({
+        $or: [
+            {from: dealerEntry.city},
+            {to: dealerEntry.city}
+        ]
+    }).exec();
 
     res.render("dealer", {
         title: "Dealer",
@@ -60,8 +65,20 @@ router.get("/", authenticateDealer, async function (req, res) {
 
 router.post("/", async (req, res) => {
     const dealerEntry = await dealerModel.findOne({ email: req.session.email }).exec();
-    const driverEntry = await driverModel.find({})
-    res.redirect("/dealer");
+    const driverEntry = await driverModel.find({
+        $or: [
+            {from: req.body.city},
+            {to: req.body.city}
+        ]
+    }).exec();
+
+
+    res.render("dealer", {
+        title: "Dealer",
+        name: dealerEntry.name,
+        result: driverEntry,
+        check: true
+    });
 });
 
 //functions for handling login for dealers
