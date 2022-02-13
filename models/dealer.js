@@ -51,8 +51,8 @@ const DealerSchema = new mongoose.Schema({
         default: "",
     },
     relation: {
-        type: [[String]],
-        default: [[""]],
+        type: [String],
+        default: [],
     },
 });
 
