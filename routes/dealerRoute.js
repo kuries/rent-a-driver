@@ -45,13 +45,7 @@ router.post("/register", async function (req, res) {
 
 //render when dealer is authenticated
 router.get("/", authenticateDealer, async function (req, res) {
-<<<<<<< HEAD
     const val = await dealerModel.findOne({ email: req.session.email }).exec();
-=======
-    const val = await dealerModel
-        .findOne({ email: "test0008@gmail.com" })
-        .exec();
->>>>>>> cb43e075762877d9ea75fc414de0cd1b20479208
     const data = await driverModel.find({}).exec();
     // console.log(data);
 
@@ -68,14 +62,7 @@ router.get("/", authenticateDealer, async function (req, res) {
 });
 
 router.get("/booked", authenticateDealer, async function (req, res) {
-<<<<<<< HEAD
     const dealerEntry = await dealerModel.findOne({ email: req.session.email }).exec();
-=======
-    const val = await dealerModel
-        .findOne({ email: "test0008@gmail.com" })
-        .exec();
-    const data = await driverModel.find({}).exec();
->>>>>>> cb43e075762877d9ea75fc414de0cd1b20479208
     // console.log(data);
 	var emailAddresses = dealerEntry.relation;
 	var data= new Array();
