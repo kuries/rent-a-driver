@@ -2,16 +2,16 @@ var express = require("express");
 const driverModel = require("../models/driver");
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
-  res.render('driver', {title: 'Driver'});
-})
-
-router.get('/register', function(req, res, next) {
-    res.render('driver_register');
+router.get("/", function (req, res, next) {
+    res.render("driver", { title: "Driver" });
 });
 
-router.post('/register', function(req, res) {
-  /*
+router.get("/register", function (req, res, next) {
+    res.render("driver_register");
+});
+
+router.post("/register", function (req, res) {
+    /*
   var email = req.body.email;
   var password = req.body.password;
   var name = req.body.name;
@@ -22,7 +22,7 @@ router.post('/register', function(req, res) {
   var transpoterName = req.body.transpoterName;
   var drivingExp = req.body.drivingExp;
   var route1 = req.body.route1;*/
-/*
+    /*
   var driver_record = {
     'email': email,
     'hashedPassword': password,
@@ -37,28 +37,34 @@ router.post('/register', function(req, res) {
     'relation': [['']]
   };*/
 
-  //console.log(driver_record);
-  const new_driver = new driverModel(req.body);
-	new_driver.save(function(err, result) {
-    if (err)
-    {
-      if(err.name == 'ValidationError') {
-        for (field in err.errors)
-        {
-          console.log(err.errors[field].message);
+    //console.log(driver_record);
+    const new_driver = new driverModel(req.body);
+    new_driver.save(function (err, result) {
+        if (err) {
+            if (err.name == "ValidationError") {
+                for (field in err.errors) {
+                    console.log(err.errors[field].message);
+                }
+            }
+        } else {
+            console.log("Success");
+            return res.redirect("/driver");
         }
-      }
-    }
-    else
-    {
-      console.log('Success');
-      return res.redirect('/driver');
-    }
-  });
+    });
 });
 
-router.get('/login', function(req, res, next) {
-  res.render('login');
+router.get("/login", function (req, res, next) {
+    res.render("login");
+});
+
+router.get("/data", async (request, response) => {
+    const data = await driverModel.find({});
+
+    try {
+        response.send(data);
+    } catch (error) {
+        response.status(500).send(error);
+    }
 });
 
 module.exports = router;

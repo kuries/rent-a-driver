@@ -21,71 +21,67 @@
             </div>
         </section>
 
-        <section>
-            <select id="stateSelect" size="1" onchange="makeSubmenu(this.value)">
-                <option value="" disabled selected>Choose State</option>
-            </select>
-
-            <select id="citySelect" size="1" >
-                <option value="" disabled selected>Choose City</option>
-                <option></option>
-            </select>
-            
-            <button onclick="displaySelected()">show selected</button>
+        <section class="search_sel">
+            <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-end">
+                <select class="btn btn-info" id="stateSelect" size="1" onchange="makeSubmenu(this.value)">
+                    <option value="" disabled selected>Choose State</option>
+                </select>
+    
+                <select class="btn btn-secondary" id="citySelect" size="1" >
+                    <option value="" disabled selected>Choose City</option>
+                    <option></option>
+                </select>
+                
+                <button class="btn btn-dark" onclick="displaySelected()">Show</button>
+            </div>
         </section>
 
-        <!-- Driver Card
+        <!-- Driver Card -->
         <section class="dcard" id="dcard">
             <div class="container">
                 <div class="row">
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
+                    <p class="lead d-flex justify-content-start">Available drivers: </p>
+                    <% for(var i = 0; i < result.length; i++) { %>
+                        <div class="card md-3" style="width: 20rem;">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= result[i].name %></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Vehicle Number: <%= result[i].truckNo %></h6>
+                                <p class="card-text">Route Details</p>
+                                <a href="#" class="card-link btn btn-warning">Book Now</a>
+                                <!-- Button trigger modal -->
+                                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModal<%= i %>">View</a>
+                                
+                                <!-- Modal -->
+                                
+                                <div class="modal fade" id="detailsModal<%= i %>" tabindex="-1" aria-labelledby="detailsModalLabe<%= i %>" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="detailsModalLabel<%= i %>"><%= result[i].name %></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h6 class="mb-2">Email: <%= result[i].email %></h6>
+                                            <h6 class="mb-2">Age: <%= result[i].age %></h6>
+                                            <h6 class="mb-2">Mobile: <%= result[i].mobileNo %></h6>
+                                            <h6 class="mb-2">Vehicle Number: <%= result[i].truckNo %></h6>
+                                            <h6 class="mb-2">Truck Capacity: <%= result[i].truckCapacity %></h6>
+                                            <h6 class="mb-2">Transpoter Name: <%= result[i].transpoterName %></h6>
+                                            <h6 class="mb-2">Driving Experience: <%= result[i].drivingExp %></h6>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-warning">Book Now</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
+                    <% } %>
                 </div>
             </div>
-        </section> -->
+        </section>
 
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
