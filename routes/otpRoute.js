@@ -59,7 +59,7 @@ router.post('/login', async (req, res) => {
 
     if(!ret_dealer && !ret_driver)
     {
-        res.render('/', {err_msg: "Email not registered"});
+        res.redirect('/');
     }
 
     const myPlaintextPassword = generator.generate({
