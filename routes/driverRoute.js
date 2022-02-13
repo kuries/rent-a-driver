@@ -13,6 +13,8 @@ router.get('/register', function(req, res, next) {
 router.post('/register', function(req, res) {
   var email = req.body.email;
   var password = req.body.password;
+
+  
   
 });
 

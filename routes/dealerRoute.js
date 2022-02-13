@@ -6,7 +6,7 @@ router.get('/register', function(req, res, next) {
     res.render('driver_register');
 });
 
-router.post('/register', function(req, res) {
+router.post('/register', async function(req, res) {
     const dealer = new dealerModel(req.body);
     console.log(req.body);
 
@@ -19,8 +19,6 @@ router.post('/register', function(req, res) {
     res.redirect('/dealer/login')
 });
 
-
-const driverModel = require("../models/driver");
 
 router.get('/', function(req, res, next) {
   res.render('driver', {title: 'Dealer'});

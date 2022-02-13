@@ -33,7 +33,7 @@ async function sendOtpMail(details){
             console.log(err);
             return;
         }
-        console.log("Sent: " + info.response);
+        // console.log("Sent: " + info.response);
     })
 };
 
@@ -46,7 +46,7 @@ router.get('/login/:designation', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     
     const myPlaintextPassword = generator.generate({
         length: 6,
@@ -65,6 +65,7 @@ router.post('/login', async (req, res) => {
         subject: 'One Time Password (OTP) for user login on rent-a-driver',
         text: `Here is your One Time Password:- ${myPlaintextPassword}`
     }
+    console.log(myPlaintextPassword);
     await sendOtpMail(details);
 
     //saving in the database
@@ -81,28 +82,46 @@ router.post('/login', async (req, res) => {
     });
 });
 
-router.post("/verify", async (req, res) => {
-    console.log(req.body);
-
+router.post("/verify", async (req, res) => 
+{
+    var email, designation;
     var result = otpModel
-        .find({email: req.body.email})
+        .findOne({email: req.body.email})
         .then(docs => {
-            if(docs.designation == "driver")
-            {
-                
-            }
+            email = docs.email;
+            designation = docs.designation;
+            return (docs);
         })
         .catch(err => res.send(err));
     
-    result.then(docs => {
-        console.log(docs[0]);
-        console.log(docs[0].password);
-        bcrypt
-            .compare(req.body.password, docs[0].password)
+    
+    var isValid = await result.then(docs => {
+        console.log(typeof docs);
+        console.log(docs.password);
+        return bcrypt
+            .compare(req.body.password, docs.password)
             .then(result => {
-                res.send(result);
+                return result;
             })
+            .catch (err => console.log(err) )
     });
+    console.log(isValid)
+    if(isValid)
+    {
+        console.log(email,designation);
+        // req.session.email = email;
+        // req.session.designation = designation;
+        req.session.user = {
+            email: email,
+            designation: designation
+        }
+        req.session.save();
+    }
+    else
+    {
+        console.log("err")
+    }
+
 })
 
 

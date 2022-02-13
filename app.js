@@ -11,6 +11,8 @@ const connectEnsureLogin = require('connect-ensure-login'); //authorization
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var MongoStore = require("connect-mongo");
+const session = require("express-session");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -42,6 +44,7 @@ app.use("/foodRoute", foodRouter);
 app.use("/driver", driverRouter);
 app.use("/dealer", dealerRouter);
 
+app.use("/otp", otpRouter);
 
 //mongoose connection
 mongoose.connect(
@@ -51,6 +54,18 @@ mongoose.connect(
         useUnifiedTopology: true,
     }
 );
+
+//session
+const oneDay = 1000 * 60 * 60 * 24;
+
+app.use(session({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    store: MongoStore.create({ mongoUrl: "mongodb+srv://beastkun:beastkun@cluster0.vgnsl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"}),
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false 
+}));
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -68,15 +83,5 @@ app.use(function (err, req, res, next) {
     res.render("error");
 });
 
-
-const oneDay = 1000 * 60 * 60 * 24;
-
-app.use(session({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    store: MongoStore.create({ mongoUrl: "mongodb+srv://beastkun:beastkun@cluster0.vgnsl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"}),
-    saveUninitialized:true,
-    cookie: { maxAge: oneDay },
-    resave: false 
-}));
 
 module.exports = app;
