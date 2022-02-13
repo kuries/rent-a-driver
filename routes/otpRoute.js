@@ -83,15 +83,26 @@ router.post('/login', async (req, res) => {
 
 router.post("/verify", async (req, res) => {
     console.log(req.body);
-    otpModel
+
+    var result = otpModel
         .find({email: req.body.email})
         .then(docs => {
             if(docs.designation == "driver")
             {
-
+                
             }
         })
         .catch(err => res.send(err));
+    
+    result.then(docs => {
+        console.log(docs[0]);
+        console.log(docs[0].password);
+        bcrypt
+            .compare(req.body.password, docs[0].password)
+            .then(result => {
+                res.send(result);
+            })
+    });
 })
 
 

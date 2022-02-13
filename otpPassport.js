@@ -1,30 +1,19 @@
 const otpModel = require("./models/otp");
-var LocalStrategy = require("passport-local").Strategy
+
 const session = require('express-session');  // session middleware
 const MongoStore = require("connect-mongo");
-const passport = require('passport');  // authentication
+
 var otpRouter = require("./routes/otpRoute");
 
 
-const app = require("./app");
-const cookieParser = require("cookie-parser");
 
 
-app.use("/otp", otpRouter);
-
-app.use(cookieParser());
 
 // set up sessions
 
-const oneDay = 1000 * 60 * 60 * 24;  //1hr
+  //1hr
 
-app.use(session({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    store: MongoStore.create({ mongoUrl: "mongodb+srv://beastkun:beastkun@cluster0.vgnsl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"}),
-    saveUninitialized:true,
-    cookie: { maxAge: oneDay },
-    resave: false 
-}));
+
 
 // app.use(passport.initialize());
 // app.use(passport.session());

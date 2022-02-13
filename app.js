@@ -17,6 +17,8 @@ var usersRouter = require("./routes/users");
 var foodRouter = require("./routes/foodRoutes");
 var driverRouter = require("./routes/driverRoute");
 
+var dealerRouter = require("./routes/dealerRoute");
+var otpRouter = require("./routes/otpRoute");
 
 var app = express();
 
@@ -30,7 +32,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "/public")));
 
 
 app.use("/", indexRouter);
@@ -38,6 +40,8 @@ app.use("/users", usersRouter);
 
 app.use("/foodRoute", foodRouter);
 app.use("/driver", driverRouter);
+app.use("/dealer", dealerRouter);
+
 
 //mongoose connection
 mongoose.connect(
@@ -63,5 +67,16 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render("error");
 });
+
+
+const oneDay = 1000 * 60 * 60 * 24;
+
+app.use(session({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    store: MongoStore.create({ mongoUrl: "mongodb+srv://beastkun:beastkun@cluster0.vgnsl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"}),
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false 
+}));
 
 module.exports = app;

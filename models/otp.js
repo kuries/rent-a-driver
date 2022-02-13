@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const passportLocalMongoose = require('passport-local-mongoose');
 
 const OtpSchema = new mongoose.Schema({
     email: {
