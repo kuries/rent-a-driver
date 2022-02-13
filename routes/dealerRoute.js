@@ -43,7 +43,7 @@ router.post("/register", function (req, res) {
             }
         } else {
             console.log("Success");
-            return res.redirect("/driver/login");
+            return res.redirect("/dealer/login");
         }
     });
 });

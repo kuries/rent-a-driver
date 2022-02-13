@@ -48,6 +48,7 @@ router.post('/register', function(req, res) {
 			}
 		}
 	});
+	return res.redirect("/driver/login");
 });
 
 router.get('/login', unauthenticateDriver, function(req, res, next) {
