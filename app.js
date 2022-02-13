@@ -36,6 +36,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "/public")));
 
+//session
+const oneDay = 1000 * 60 * 60 * 24;
+
+app.use(session({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    store: MongoStore.create({ mongoUrl: "mongodb+srv://beastkun:beastkun@cluster0.vgnsl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"}),
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false 
+}));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
@@ -55,16 +65,7 @@ mongoose.connect(
     }
 );
 
-//session
-const oneDay = 1000 * 60 * 60 * 24;
 
-app.use(session({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    store: MongoStore.create({ mongoUrl: "mongodb+srv://beastkun:beastkun@cluster0.vgnsl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"}),
-    saveUninitialized:true,
-    cookie: { maxAge: oneDay },
-    resave: false 
-}));
 
 
 // catch 404 and forward to error handler

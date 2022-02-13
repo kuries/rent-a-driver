@@ -109,13 +109,16 @@ router.post("/verify", async (req, res) =>
     if(isValid)
     {
         console.log(email,designation);
-        // req.session.email = email;
-        // req.session.designation = designation;
-        req.session.user = {
-            email: email,
-            designation: designation
-        }
+
+        // req.session.user = {
+        //     email: email,
+        //     designation: designation
+        // }
+        req.session.email = email;
+        req.session.designation = designation;
         req.session.save();
+        console.log(req.session.user);
+        res.redirect('/');
     }
     else
     {

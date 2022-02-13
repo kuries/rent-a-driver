@@ -5,11 +5,27 @@ var fs = require("fs");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-    res.render("index", { title: "Express" });
+    
+	if(req.session)
+	{
+		if(req.session.designation == "driver")
+		{
+			res.redirect('/driver');
+		}
+		else if(req.session.designation == "dealer")
+		{
+			res.redirect('/dealer');
+		}
+	}
+	else
+	{
+		res.render("index", { title: "Express" });
+	}
 });
 
 router.get("/home", function (req, res, next) {
     res.render("driver", { title: "Driver" });
+
 });
 
 router.get("/home_dealer", function (req, res, next) {
@@ -22,5 +38,7 @@ router.get("/home_dealer", function (req, res, next) {
 
     res.render("dealer", { title: "Dealer" , data: citiesByState});
 });
+
+
 
 module.exports = router;
