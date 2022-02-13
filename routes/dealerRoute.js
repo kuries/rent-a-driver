@@ -80,7 +80,7 @@ router.get("/booked", authenticateDealer, async function (req, res) {
     res.render("booked", {
         title: "Dealer",
         name: dealerEntry.name,
-        result: [],
+        result: data,
         check: true,
     });
 });
