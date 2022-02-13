@@ -32,8 +32,11 @@ router.get('/register', unauthenticateDealer, function(req, res, next) {
     res.render('dealer_register');
 });
 
-router.post("/register", function (req, res) {
+router.post("/register", async function (req, res) {
+    hashedPassword = await bcrypt.hash(req.body.password, 10);
+	req.body.password = hashedPassword;
     const new_dealer = new dealerModel(req.body);
+
     new_dealer.save(function (err, result) {
         if (err) {
             if (err.name == "ValidationError") {
@@ -47,7 +50,6 @@ router.post("/register", function (req, res) {
         }
     });
 });
-
 
 //render when dealer is authenticated
 router.get("/", authenticateDealer, async function (req, res) {
@@ -63,7 +65,28 @@ router.get("/", authenticateDealer, async function (req, res) {
 });
 
 router.get('/login', unauthenticateDealer, function(req, res, next) {
-  res.render('login');
+  res.render('login', {
+      id: "dealer"
+  });
+});
+
+router.post('/login', async function(req, res) {
+	const user = dealerModel.findOne({ email: req.body.email }).exec();
+	var isValid = await user.then(docs => {
+        return bcrypt
+            .compare(req.body.password, docs.password)
+            .then(result => {
+                return result;
+            })
+            .catch (err => console.log(err) )
+    });
+	if (isValid)
+	{
+		req.session.email = req.body.email;
+		req.session.designation = 'dealer';
+		req.session.save();
+		res.redirect('/dealer');
+	}
 });
 
 router.get("/data", async (request, response) => {
