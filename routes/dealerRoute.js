@@ -49,6 +49,9 @@ router.get("/", authenticateDealer, async function (req, res) {
     const data = await driverModel.find({}).exec();
     // console.log(data);
 
+	//truncate data to relavant values
+
+
     res.render("dealer", {
         title: "Dealer",
         name: val.name,
@@ -59,14 +62,25 @@ router.get("/", authenticateDealer, async function (req, res) {
 });
 
 router.get("/booked", authenticateDealer, async function (req, res) {
-    const val = await dealerModel.findOne({ email: "asdf@gmail.com" }).exec();
-    const data = await driverModel.find({}).exec();
+    const dealerEntry = await dealerModel.findOne({ email: req.session.email }).exec();
     // console.log(data);
+	var emailAddresses = dealerEntry.relation;
+	var data= new Array();
+	for (var i of emailAddresses)
+	{
+		if(i=="")
+		continue;
+		else{
+			var value = await driverModel.findOne({email: i}).exec();
+			data.push(value);
+		}
+
+	}
 
     res.render("booked", {
         title: "Dealer",
-        name: val.name,
-        result: data,
+        name: dealerEntry.name,
+        result: [],
         check: true,
     });
 });
