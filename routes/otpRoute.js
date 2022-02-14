@@ -53,9 +53,14 @@ router.post("/login", async (req, res) => {
     var ret_dealer = await DealerModel.findOne({ email: checkmail }).exec();
 
     var ret_driver = await DriverModel.findOne({ email: checkmail }).exec();
-
     if (!ret_dealer && !ret_driver) {
-        res.redirect("/");
+        return res.redirect("/");
+    }
+    if (ret_dealer && req.body.designation == "driver") {
+        return res.redirect("/");
+    }
+    if (ret_driver && req.body.designation == "dealer") {
+        return res.redirect("/");
     }
 
     const myPlaintextPassword = generator.generate({
