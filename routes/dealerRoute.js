@@ -54,19 +54,17 @@ router.get("/", authenticateDealer, async function (req, res) {
     const dealerEntry = await dealerModel
         .findOne({ email: req.session.email })
         .exec();
-    const driverEntry = await driverModel
+    const driverEntry = driverModel
         .find({
             $or: [{ from: dealerEntry.city }, { to: dealerEntry.city }],
-        })
-        .exec();
+        }).find({email : {$nin : dealerEntry.relation}});
 
-    //truncate data to relavant values
+	const place = {state:dealerEntry.state, city:dealerEntry.city};
     res.render("dealer", {
         title: "Dealer",
         name: dealerEntry.name,
-        email: dealerEntry.email,
+		place: place,
         result: driverEntry,
-        number: driverEntry.length,
         check: true,
     });
 });
@@ -78,15 +76,15 @@ router.post("/", async (req, res) => {
     const driverEntry = await driverModel
         .find({
             $or: [{ from: req.body.city }, { to: req.body.city }],
-        })
-        .exec();
+        }).find({email : {$nin : dealerEntry.relation}}).exec();
+
+	const place = {state:req.body.state, city:req.body.city};
 
     res.render("dealer", {
         title: "Dealer",
         name: dealerEntry.name,
-        email: dealerEntry.email,
+		place: place,
         result: driverEntry,
-        number: driverEntry.length,
         check: true,
     });
 });
@@ -95,22 +93,15 @@ router.get("/booked", authenticateDealer, async function (req, res) {
     const dealerEntry = await dealerModel
         .findOne({ email: req.session.email })
         .exec();
-    // console.log(data);
-    var emailAddresses = dealerEntry.relation;
-    var data = new Array();
-    for (var i of emailAddresses) {
-        if (i == "") continue;
-        else {
-            var value = await driverModel.findOne({ email: i }).exec();
-            data.push(value);
-        }
-    }
 
+    const driverEntry = await driverModel
+        .find({email : {$in : dealerEntry.relation}}).exec();
+
+	console.log(dealerEntry.relation);
     res.render("booked", {
         title: "Dealer",
         name: dealerEntry.name,
-        result: data,
-        number: data.length,
+        result: driverEntry,
         check: true,
     });
 });
@@ -153,8 +144,7 @@ router.post("/bookDriver", authenticateDealer, async function (req, res, next) {
     var driver_email = req.body.email;
     var dealer_email = req.session.email;
     console.log(driver_email);
-    // var query = {email: dealer_email};
-    // console.log(email)
+
     const doc = await dealerModel.findOne({ email: dealer_email }).exec();
     var val = doc.relation;
 

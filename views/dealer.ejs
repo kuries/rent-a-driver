@@ -40,6 +40,8 @@
                 <div class="row">
                     <!-- <h1><%= title %></h1> -->
                     <h2>Your Name: <%= name %></h2>
+                    <h2>State: <%=place.state%></h2>
+                    <h2>City: <%=place.city%></h2>
                     <!-- <p>Welcome to <%= title %></p> -->
                 </div>
             </div>
@@ -67,7 +69,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <p class="lead d-flex justify-content-center mb-5 mx-auto" style="border: 1px solid;border-radius: 10px; box-sizing: border-box;">Avaliable drivers: <%= number %> </p>
+                        <p class="lead d-flex justify-content-center mb-5 mx-auto" style="border: 1px solid;border-radius: 10px; box-sizing: border-box;">Avaliable drivers: <%= result.length %> </p>
                     </div>
                     <% for(var i = 0; i < result.length; i++) { %>
                         <div class="card md-3" style="width: 20rem;">

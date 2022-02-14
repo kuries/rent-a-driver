@@ -45,27 +45,13 @@
             </div>
         </section>
 
-        <section class="search_sel">
-            <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-end">
-                <select class="btn btn-info" id="stateSelect" size="1" onchange="makeSubmenu(this.value)">
-                    <option value="" disabled selected>Choose State</option>
-                </select>
-    
-                <select class="btn btn-secondary" id="citySelect" size="1" >
-                    <option value="" disabled selected>Choose City</option>
-                    <option></option>
-                </select>
-                
-                <button class="btn btn-dark">Show</button>
-            </div>
-        </section>
 
         <!-- Driver Card -->
         <section class="dcard" id="dcard">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <p class="lead d-flex justify-content-center mb-5 mx-auto" style="border: 1px solid;border-radius: 10px; box-sizing: border-box;">Booked drivers: <%= number %> </p>
+                        <p class="lead d-flex justify-content-center mb-5 mx-auto" style="border: 1px solid;border-radius: 10px; box-sizing: border-box;">Booked drivers: <%= result.length %> </p>
                     </div>
                     <% for(var i = 0; i < result.length; i++) { %>
                         <div class="card md-3" style="width: 20rem;">
