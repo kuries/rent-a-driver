@@ -66,14 +66,16 @@ router.get('/login', unauthenticateDriver, function(req, res, next) {
 
 router.post('/login', async function(req, res) {
 	const user = driverModel.findOne({ email: req.body.email }).exec();
+
 	var isValid = await user.then(docs => {
-        return bcrypt
-            .compare(req.body.password, docs.password)
-            .then(result => {
-                return result;
-            })
-            .catch (err => console.log(err) )
-    });
+		if(!docs)
+		return bcrypt
+			.compare(req.body.password, docs.password)
+			.then(result => {
+				return result;
+			})
+			.catch (err => console.log(err) );
+	});
 	if (isValid)
 	{
 		req.session.email = req.body.email;
@@ -81,6 +83,11 @@ router.post('/login', async function(req, res) {
 		req.session.save();
 		res.redirect('/driver');
 	}
+	else //incorrect password
+	{
+		res.redirect('/driver/login');
+	}
+	
 });
 
 router.get("/data", async (request, response) => {

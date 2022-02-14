@@ -1,5 +1,7 @@
 var express = require("express");
 const bcrypt = require("bcrypt");
+// const flash = require("express-flash");
+const app = require("../app");
 const dealerModel = require("../models/dealer");
 const driverModel = require("../models/driver");
 var router = express.Router();
@@ -8,12 +10,14 @@ function authenticateDealer(req, res, next) {
     if (req.session.email && req.session.designation == "dealer") {
         next();
     } else {
+		// req.flash('error', 'Dealer unauthenticated');
         return res.redirect("/");
     }
 }
 
 function unauthenticateDealer(req, res, next) {
     if (req.session.email && req.session.designation == "dealer") {
+		req.flash('error', 'Dealer already authenticated');
         return res.redirect("/");
     } else {
         next();
@@ -83,7 +87,6 @@ router.post("/", async (req, res) => {
     });
 });
 
-
 router.get("/booked", authenticateDealer, async function (req, res) {
     const dealerEntry = await dealerModel.findOne({ email: req.session.email }).exec();
     // console.log(data);
@@ -118,31 +121,29 @@ router.get("/login", unauthenticateDealer, function (req, res, next) {
 router.post("/login", async function (req, res) {
     console.log(req.body.email);
     const user = dealerModel.findOne({ email: req.body.email }).exec();
-    var isValid = await user.then((docs) => {
-        return bcrypt
-            .compare(req.body.password, docs.password)
-            .then((result) => {
-                return result;
-            })
-            .catch((err) => console.log(err));
-    });
-    if (isValid) {
-        req.session.email = req.body.email;
-        req.session.designation = "dealer";
-        req.session.save();
-        res.redirect("/dealer");
-    }
-});
 
-//function for postman
-router.get("/data", async (request, response) => {
-    const data = await dealerModel.find({});
+	var isValid = await user.then((docs) => {
+		if(!docs)
+		{
+			return bcrypt
+			.compare(req.body.password, user.password)
+			.then((result) => {
+				return result;
+			})
+			.catch((err) => console.log(err));
+		}
+	});
+	if (isValid) {
+		req.session.email = req.body.email;
+		req.session.designation = "dealer";
+		req.session.save();
+		res.redirect("/dealer/login");
+	}
+	else{
 
-    try {
-        response.send(data);
-    } catch (error) {
-        response.status(500).send(error);
-    }
+		res.redirect('/dealer/login');
+	}
+
 });
 
 //display booked drivers
