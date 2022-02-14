@@ -96,19 +96,6 @@ router.get("/booked", authenticateDealer, async function (req, res) {
         .findOne({ email: req.session.email })
         .exec();
     // console.log(data);
-<<<<<<< HEAD
-	var emailAddresses = dealerEntry.relation;
-	var data= new Array();
-	for (var i of emailAddresses)
-	{
-		if(i=="")
-		continue;
-		else{
-			var value = await driverModel.findOne({email: i}).exec();
-			data.push(value);
-		}
-	}
-=======
     var emailAddresses = dealerEntry.relation;
     var data = new Array();
     for (var i of emailAddresses) {
@@ -118,7 +105,6 @@ router.get("/booked", authenticateDealer, async function (req, res) {
             data.push(value);
         }
     }
->>>>>>> 901fd95991a943cb32884b6c1f70c8151bd76254
 
     res.render("booked", {
         title: "Dealer",
@@ -139,27 +125,24 @@ router.get("/login", unauthenticateDealer, function (req, res, next) {
 
 router.post("/login", async function (req, res) {
     console.log(req.body.email);
-    const user = dealerModel.findOne({ email: req.body.email }).exec();
+    const user = await dealerModel.findOne({ email: req.body.email }).exec();
 
-	var isValid = await user.then((docs) => {
-		if(!docs)
-		{
-			return bcrypt
-			.compare(req.body.password, user.password)
-			.then((result) => {
-				return result;
-			})
-			.catch((err) => console.log(err));
-		}
-	});
-	if (isValid) {
+	if(!user)	//email check
+		res.redirect('/dealer/login');
+
+	var isValid = await bcrypt.compare(req.body.password, user.password)
+		.then((result) => {
+			return result;
+		})
+		.catch((err) => console.log(err));
+
+	if (isValid) {	//password check
 		req.session.email = req.body.email;
 		req.session.designation = "dealer";
 		req.session.save();
-		res.redirect("/dealer/login");
+		res.redirect("/dealer");
 	}
 	else{
-
 		res.redirect('/dealer/login');
 	}
 
