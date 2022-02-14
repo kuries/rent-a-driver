@@ -73,7 +73,15 @@
                                 <h5 class="card-title"><%= result[i].name %></h5>
                                 <h6 class="card-subtitle mb-2 text-muted">Vehicle Number: <%= result[i].truckNo %></h6>
                                 <p class="card-text">Route Details</p>
-                                <a href="#" class="card-link btn btn-warning">Delete</a>
+                                <form action="/dealer/deleteBookedDriver" method="POST">
+                                    <div>
+                                      <input type="hidden" name="email" id="say" value="<%= result[i].email %>">
+                                      
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="btn btn-warning">Delete</button>
+                                    </div>
+                                </form>
                                 <!-- Button trigger modal -->
                                 <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModal<%= i %>">View</a>
                                 
@@ -97,7 +105,7 @@
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-warning">Book Now</button>
+                                        
                                         </div>
                                     </div>
                                     </div>
