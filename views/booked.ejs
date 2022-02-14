@@ -58,7 +58,7 @@
                             <div class="card-body">
                                 <h5 class="card-title"><%= result[i].name %></h5>
                                 <h6 class="card-subtitle mb-2 text-muted">Vehicle Number: <%= result[i].truckNo %></h6>
-                                <p class="card-text">Route Details</p>
+                                <p class="card-subtitle mb-2 text-muted">Mobile Number: <%= result[i].mobileNo %></p>
                                 <form action="/dealer/deleteBookedDriver" method="POST">
                                     <div>
                                       <input type="hidden" name="email" id="say" value="<%= result[i].email %>">
@@ -88,6 +88,9 @@
                                             <h6 class="mb-2">Truck Capacity: <%= result[i].truckCapacity %></h6>
                                             <h6 class="mb-2">Transpoter Name: <%= result[i].transpoterName %></h6>
                                             <h6 class="mb-2">Driving Experience: <%= result[i].drivingExp %></h6>
+                                            <% for(var j=0; j< result[i].from.length; j++) { %>
+                                                <h6 class="mb-2">Route <%= j+1 %>: <%= result[i].from[j] %> to <%= result[i].to[j] %></h6>
+                                            <% } %>
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
