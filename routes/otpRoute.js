@@ -9,6 +9,7 @@ const express = require("express");
 const otpModel = require("../models/otp");
 const DealerModel = require("../models/dealer");
 const DriverModel = require("../models/driver");
+const app = require("../app");
 
 var router = express.Router();
 
@@ -38,9 +39,9 @@ async function sendOtpMail(details) {
 }
 
 router.get("/login/:designation", async (req, res) => {
-    const designation = req.params.designation;
-    if (designation == "driver" || designation == "dealer")
-        res.render("otpLogin", { designation: designation });
+    const params = req.params;
+    if (params.designation == "driver" || params.designation == "dealer")
+        res.render("otpLogin", { result: params });
     else console.log("error");
 });
 
@@ -84,6 +85,13 @@ router.post("/login", async (req, res) => {
     console.log(myPlaintextPassword);
     await sendOtpMail(details);
 
+    doc = await otpModel.findOne({email:req.body.email}).exec();
+    if(doc)
+    {
+        await otpModel.deleteOne({email:req.body.email}).exec();
+    }
+
+
     //saving in the database
     bcrypt.hash(myPlaintextPassword, saltRounds, async (err, hash) => {
         otpBody.password = hash;
@@ -91,7 +99,7 @@ router.post("/login", async (req, res) => {
 
         try {
             await otp.save();
-            res.render("otpVerify", { email: req.body.email });
+            res.render("otpVerify", { email: req.body.email});
         } catch (error) {
             res.status(500).send(error);
         }
@@ -128,8 +136,62 @@ router.post("/verify", async (req, res) => {
         console.log(req.session.user);
         res.redirect("/");
     } else {
+        // res.redirect('');
+        res.render('otpVerify', { email: req.body.email});
         console.log("err");
     }
 });
+
+router.post("/resend",async (req, res, next)=>
+{
+    var checkmail = req.body.email;
+    var designation;
+
+    doc = await otpModel.findOne({email: checkmail}).exec();
+    
+    if(doc)
+    {
+        designation = doc.designation;
+        await otpModel.deleteOne({email: checkmail}).exec();
+    }
+    else
+    {
+        return res.redirect('/');
+    }
+
+    const myPlaintextPassword = generator.generate({
+        length: 6,
+        numbers: true,
+    });
+    const saltRounds = 10;
+
+    var otpBody = {
+        email: checkmail,
+        designation: designation,
+    };
+
+    //sending the mail to user
+    const details = {
+        to: checkmail,
+        subject: "One Time Password (OTP) for user login on rent-a-driver",
+        text: `Here is your One Time Password:- ${myPlaintextPassword}`,
+    };
+    console.log(myPlaintextPassword);
+    await sendOtpMail(details);
+
+    //saving in the database
+    bcrypt.hash(myPlaintextPassword, saltRounds, async (err, hash) => {
+        otpBody.password = hash;
+        const otp = new otpModel(otpBody);
+
+        try {
+            await otp.save();
+            res.render("otpVerify", { email: checkmail});
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    });
+
+})
 
 module.exports = router;

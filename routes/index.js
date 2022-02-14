@@ -1,5 +1,7 @@
 var express = require("express");
 const dealerModel = require("../models/dealer");
+const driverModel = require("../models/driver");
+const otpModel = require("../models/otp");
 var router = express.Router();
 var fs = require("fs");
 const session = require("express-session");
@@ -44,12 +46,20 @@ router.get("/home_dealer", function (req, res, next) {
 
 
 //logout globally
-router.get('/logout', (req,res)=>
+router.get('/logout', async (req,res)=>
 {
 	if(req.session.email)
 	{
+		var email = req.session.email;
+		designation = req.session.designation;
+
 		if(req.session.designation == "dealer" || req.session.designation == "driver")
 		{
+			doc = await otpModel.findOne({email:email}).exec();
+			if(doc)
+			{
+				await otpModel.deleteOne({email: email}).exec();
+			}
 			req.session.destroy();
 		}
 	}

@@ -34,6 +34,17 @@
                         <button class="btn btn-primary">Send</button>
                       </div>
                     </form>
+
+                    <form action="/otp/resend" method="POST">
+                      <div>
+                        <div>
+                          <input type="hidden" name="email" id="email" value="<%= email %>">
+                        </div>
+                        <button class="mt-2 btn btn-primary">Resend</button>
+                        </div>
+                    </form>
+                    
+                    
                   </div>
                 </div>
               </div>
