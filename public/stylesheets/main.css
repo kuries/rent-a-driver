@@ -1,8 +1,14 @@
 body {
-    background: linear-gradient(rgba(129, 161, 193, 0.7), rgba(129, 161, 193, 0.7)), url('/img/background.jpg');
+    background: linear-gradient(rgba(129, 161, 193, 0), rgba(129, 161, 193, 0)), url('/img/image.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
+}
+
+.navbar-custom {
+    /*background: linear-gradient(to bottom, rgba(11, 27, 103, 1) 40%, rgba(0, 0, 0, 0) 100%);*/
+    background: rgba(0,0,0,0.5);
+
 }
 
 .container {

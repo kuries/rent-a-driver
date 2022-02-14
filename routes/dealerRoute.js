@@ -10,14 +10,14 @@ function authenticateDealer(req, res, next) {
     if (req.session.email && req.session.designation == "dealer") {
         next();
     } else {
-		// req.flash('error', 'Dealer unauthenticated');
+        // req.flash('error', 'Dealer unauthenticated');
         return res.redirect("/");
     }
 }
 
 function unauthenticateDealer(req, res, next) {
     if (req.session.email && req.session.designation == "dealer") {
-		req.flash('error', 'Dealer already authenticated');
+        req.flash("error", "Dealer already authenticated");
         return res.redirect("/");
     } else {
         next();
@@ -128,28 +128,24 @@ router.post("/login", async function (req, res) {
     console.log(req.body.email);
     const user = dealerModel.findOne({ email: req.body.email }).exec();
 
-	var isValid = await user.then((docs) => {
-		if(!docs)
-		{
-			return bcrypt
-			.compare(req.body.password, user.password)
-			.then((result) => {
-				return result;
-			})
-			.catch((err) => console.log(err));
-		}
-	});
-	if (isValid) {
-		req.session.email = req.body.email;
-		req.session.designation = "dealer";
-		req.session.save();
-		res.redirect("/dealer/login");
-	}
-	else{
-
-		res.redirect('/dealer/login');
-	}
-
+    var isValid = await user.then((docs) => {
+        if (!docs) {
+            return bcrypt
+                .compare(req.body.password, user.password)
+                .then((result) => {
+                    return result;
+                })
+                .catch((err) => console.log(err));
+        }
+    });
+    if (isValid) {
+        req.session.email = req.body.email;
+        req.session.designation = "dealer";
+        req.session.save();
+        res.redirect("/dealer/login");
+    } else {
+        res.redirect("/dealer/login");
+    }
 });
 
 //display booked drivers
@@ -177,26 +173,31 @@ router.post("/bookDriver", authenticateDealer, async function (req, res, next) {
 });
 
 //deletes booked driver
-router.post('/deleteBookedDriver', authenticateDealer, async function(req, res, next)
-{
-	var driver_email = req.body.email;
-	var dealer_email = req.session.email;
-	const doc = await dealerModel.findOne({email: dealer_email}).exec();
-	var val = doc.relation;
+router.post(
+    "/deleteBookedDriver",
+    authenticateDealer,
+    async function (req, res, next) {
+        var driver_email = req.body.email;
+        var dealer_email = req.session.email;
+        const doc = await dealerModel.findOne({ email: dealer_email }).exec();
+        var val = doc.relation;
 
-	const index = val.indexOf(driver_email);
-	if(index > -1)
-	{
-		val.splice(index, 1);
-		console.log(val);
-	}
+        const index = val.indexOf(driver_email);
+        if (index > -1) {
+            val.splice(index, 1);
+            console.log(val);
+        }
 
-	dealerModel.updateOne({email:dealer_email},{relation : val},{upsert: false},
-	function(err, doc) {
-		if (err) return res.send(500, {error: err});
-		return res.redirect('/dealer/booked');
-	});
-
-});
+        dealerModel.updateOne(
+            { email: dealer_email },
+            { relation: val },
+            { upsert: false },
+            function (err, doc) {
+                if (err) return res.send(500, { error: err });
+                return res.redirect("/dealer/booked");
+            }
+        );
+    }
+);
 
 module.exports = router;
