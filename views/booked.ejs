@@ -56,7 +56,7 @@
                     <option></option>
                 </select>
                 
-                <button class="btn btn-dark" onclick="displaySelected()">Show</button>
+                <button class="btn btn-dark">Show</button>
             </div>
         </section>
 
@@ -64,7 +64,7 @@
         <section class="dcard" id="dcard">
             <div class="container">
                 <div class="row">
-                    <p class="lead d-flex justify-content-start">Booked drivers: </p>
+                    <p class="lead d-flex justify-content-start">Booked drivers: <%= result.length %> </p>
                     <% for(var i = 0; i < result.length; i++) { %>
                         <div class="card md-3" style="width: 20rem;">
                             <div class="card-body">

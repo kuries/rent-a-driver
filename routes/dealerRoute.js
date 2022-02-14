@@ -43,20 +43,46 @@ router.post("/register", async function (req, res) {
     });
 });
 
+//functions for handling the loading of website
+
 //render when dealer is authenticated
 router.get("/", authenticateDealer, async function (req, res) {
-    const val = await dealerModel.findOne({ email: req.session.email }).exec();
+    const dealerEntry = await dealerModel.findOne({ email: req.session.email }).exec();
+    const driverEntry = await driverModel.find({
+        $or: [
+            {from: dealerEntry.city},
+            {to: dealerEntry.city}
+        ]
+    }).exec();
 
-	const data = await driverModel.find({email : {$nin : val.relation}});
+	//truncate data to relavant values
+    res.render("dealer", {
+        title: "Dealer",
+        name: dealerEntry.name,
+        email: dealerEntry.email,
+        result: driverEntry,
+        check: true
+    });
+});
+
+router.post("/", async (req, res) => {
+    const dealerEntry = await dealerModel.findOne({ email: req.session.email }).exec();
+    const driverEntry = await driverModel.find({
+        $or: [
+            {from: req.body.city},
+            {to: req.body.city}
+        ]
+    }).exec();
 
     res.render("dealer", {
         title: "Dealer",
-        name: val.name,
-		email: val.email,
-        result: data,
-        check: true,
+        name: dealerEntry.name,
+        email: dealerEntry.email,
+        result: driverEntry,
+        check: true
     });
 });
+
 
 router.get("/booked", authenticateDealer, async function (req, res) {
     const dealerEntry = await dealerModel.findOne({ email: req.session.email }).exec();
@@ -76,11 +102,12 @@ router.get("/booked", authenticateDealer, async function (req, res) {
     res.render("booked", {
         title: "Dealer",
         name: dealerEntry.name,
-        result: data,
-        check: true,
+        result: data, 
+        check: true
     });
 });
 
+//functions for handling login for dealers
 router.get("/login", unauthenticateDealer, function (req, res, next) {
     res.render("login", {
         id: "dealer",
@@ -107,6 +134,7 @@ router.post("/login", async function (req, res) {
     }
 });
 
+//function for postman
 router.get("/data", async (request, response) => {
     const data = await dealerModel.find({});
 

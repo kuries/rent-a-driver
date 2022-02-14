@@ -19,11 +19,11 @@ function unauthenticateDriver(req, res, next)
 {
 	if(req.session.email && req.session.designation == "driver")
 	{
-	return res.redirect('/');
+		return res.redirect('/');
 	}
 	else
 	{
-	next();
+		next();
 	}
 }
 
@@ -52,7 +52,7 @@ router.post('/register', async function(req, res) {
 			}
 		} else {
             console.log("Success");
-            return res.redirect("/driver/login");
+            res.redirect("/driver/login");
 		}
 	});
 });
