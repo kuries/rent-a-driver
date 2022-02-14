@@ -2,12 +2,13 @@
 <html>
     <head>
         <title><%= title %></title>
-        <link rel='stylesheet' href='/stylesheets/style.css' />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+
     </head>
     <body>
         <!-- Navbar -->
-        <nav class=" navbar navbar-custom navbar-expand-lg fixed-top navbar-dark">
+        <nav class=" navbar navbar-custom navbar-expand-md fixed-top navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">Rent-A-Driver</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,11 +30,11 @@
         </nav>
 
         <!-- User Info -->
-        <section class="usr_inf" id="usr_inf" >
+        <section class="usr_inf driver" id="usr_inf" >
             <div class="container position-relative">
                 <div class="row">
                     <!-- <h1><%= title %></h1> -->
-                    <h2>Your Name: <%= name %></h2>
+                    <h2>Welcome, <%= name %> !</h2>
                     <!-- <p>Welcome to <%= title %></p> -->
                 </div>
             </div>
@@ -44,15 +45,15 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <p class="lead d-flex justify-content-center mb-5 mx-auto" style="border: 1px solid;border-radius: 10px; box-sizing: border-box;">You have been booked by <%= number %> dealers</p>
+                        <p class="lead d-flex justify-content-center mb-5 mx-auto" style="border: 1px solid white;border-radius: 10px; box-sizing: border-box; color: white; background: rgb(0,0,0,0.5);">You have been booked by <%= number %> dealers</p>
                     </div>
                     
                     <% for(var i = 0; i < result.length; i++) { %>
                         <div class="card md-3" style="width: 20rem;">
                             <div class="card-body">
-                                <h5 class="card-title"><%= result[i].name %></h5>
-                                <h6 class="card-subtitle mb-2 text-muted">City: <%= result[i].city %></h6>
-                                <p class="card-subtitle mb-2 text-muted">Mobile: <%= result[i].mobileNo %></p>
+                                <h4 class="card-title" style="color: white;"><%= result[i].name %></h4>
+                                <h6 class="card-subtitle mb-2 " style="color: white;">City: <%= result[i].city %></h6>
+                                <p class="card-subtitle mb-2 " style="color: white;">Mobile: <%= result[i].mobileNo %></p>
                                 <!-- <a href="#" class="card-link btn btn-warning">Book Now</a> -->
                                 <!-- Button trigger modal -->
                                 <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModal<%= i %>">View</a>
