@@ -38,6 +38,12 @@ router.get('/register', unauthenticateDriver, function(req, res, next) {
 router.post('/register', async function(req, res) {
 	hashedPassword = await bcrypt.hash(req.body.password, 10);
 	req.body.password = hashedPassword;
+
+	var route1 = [req.body.route1_state, route1_city];
+	var route2 = [req.body.route2_state, route2_city];
+	var route3 = [req.body.route3_state, route3_city];
+	req.body.routes.push([route1, route2, route3]);
+
   	const new_driver = new driverModel(req.body);
 	
 	new_driver.save(function(err, result) {
