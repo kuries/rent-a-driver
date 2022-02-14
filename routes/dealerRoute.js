@@ -145,8 +145,8 @@ router.post("/bookDriver", authenticateDealer, async function (req, res, next) {
     var dealer_email = req.session.email;
     console.log(driver_email);
 
-    const doc = await dealerModel.findOne({ email: dealer_email }).exec();
-    var val = doc.relation;
+    const dealer_doc = await dealerModel.findOne({ email: dealer_email }).exec();
+    var val = dealer_doc.relation;
 
     var arr = [...val, driver_email];
     console.log(arr);
