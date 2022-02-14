@@ -16,23 +16,29 @@
 				<p style="color: white; margin-bottom: 5px;">Dealer Register</p>
 			</div>
 			<form id="form1" action="/dealer/register" method="post">
-				<div class="mb-3 mt-3 form-group">
+				<div class="mb-3 form-floating form-group">
 					<input type="email" name="email" placeholder="E-mail" required="" pattern="[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?ก-๙A-Z^_a-z`{|}~])*@[ก-๙a-zA-Z0-9](-*\.?[ก-๙a-zA-Z0-9])*\.[ก-๙a-zA-Z](-?[ก-๙a-zA-Z0-9])+$" class="form-control">
+					<label for="email">Email address</label>
 				</div>
-				<div class="mb-3 mt-3 form-group">
+				<div class="mb-3 form-floating form-group">
 					<input type="text" name="name" placeholder="Name" required="" class="form-control">
+					<label for="name">Name</label>
 				</div>
-				<div class="mb-3 mt-3 form-group">
+				<div class="mb-3 form-floating form-group">
 					<input type="text" name="mobileNo" placeholder="Mobile Number" required="" class="form-control">
+					<label for="mobileNo">Mobile Number</label>
 				</div>
-				<div class="mb-3 mt-3 form-group">
+				<div class="mb-3 form-floating form-group">
 					<input type="text" name="materialNature" placeholder="Nature of Material" required="" class="form-control">
+					<label for="materialNature">Nature of Material</label>
 				</div>
-				<div class="mb-3 mt-3 form-group">
+				<div class="mb-3 form-floating form-group">
 					<input type="number" name="materialWeight" placeholder="Weight of Material" required="" class="form-control">
+					<label for="materialWeight">Weight of Material (kgs)</label>
 				</div>
-				<div class="mb-3 mt-3 form-group">
+				<div class="mb-3 form-floating form-group">
 					<input type="number" name="quantity" placeholder="Quantity of Material" required="" class="form-control">
+					<label for="quantity">Quantity of Material</label>
 				</div>
 				<div class="mb-3 mt-3 row form-group">
 					<div class="col-sm-7">
@@ -46,13 +52,15 @@
 						</select>
 					</div>
 				</div>
-				<div class="mb-3 mt-3 form-group">
+				<div class="mb-3 form-floating form-group">
 					<input type="password" name="password" placeholder="Password" required="" class="form-control">
+					<label for="password">Password</label>
 				</div>
-				<div class="mb-3 mt-3 form-group">
+				<div class="mb-3 form-floating form-group">
 					<input type="password" name="passwordConf" placeholder="Confirm Password" required="" class="form-control">
+					<label for="passwordConf">Confirm Password</label>
 				</div>
-				<div class="mb-3 mt-3 form-group">
+				<div class="mb-3 form-floating d-flex justify-content-center form-group">
 					<input type="submit" value="Register" class="btn btn-primary">
 				</div>
 			</form>
@@ -61,7 +69,7 @@
 				<span id="check"></span>
 			</div>
 			<div>
-				<span>Already Registered? <a href="/dealer/login">Login Here</a></span>
+				<span class="d-flex justify-content-center" style="color: white;">Already Registered? <a href="/dealer/login">Login Here</a></span>
 			</div>
 		</div>
 	</body>

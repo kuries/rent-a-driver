@@ -13,12 +13,6 @@ body {
 
 }
 
-.nav-pills .nav-link.active {
-    background-color: grey !important;
-    /* background: yellow !important; */
-    border-color: rgb(194, 103, 0);
-    border: 0.5px solid;
-}
 @media (max-width: 992px) {
     .navbar-nav.nav-pills {
         display: block;
@@ -125,4 +119,5 @@ body {
 
 .search_sel {
     padding: 10px;
+    background: rgba(0,0,0,0.5);
 }
