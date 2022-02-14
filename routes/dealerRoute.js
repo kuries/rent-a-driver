@@ -46,11 +46,8 @@ router.post("/register", async function (req, res) {
 //render when dealer is authenticated
 router.get("/", authenticateDealer, async function (req, res) {
     const val = await dealerModel.findOne({ email: req.session.email }).exec();
-    const data = await driverModel.find({}).exec();
-    // console.log(data);
 
-	//truncate data to relavant values
-
+	const data = await driverModel.find({email : {$nin : val.relation}});
 
     res.render("dealer", {
         title: "Dealer",
@@ -74,7 +71,6 @@ router.get("/booked", authenticateDealer, async function (req, res) {
 			var value = await driverModel.findOne({email: i}).exec();
 			data.push(value);
 		}
-
 	}
 
     res.render("booked", {
@@ -140,5 +136,28 @@ router.post('/bookDriver', authenticateDealer, async function(req, res, next){
 	});
 
 })
+
+//deletes booked driver
+router.post('/deleteBookedDriver', authenticateDealer, async function(req, res, next)
+{
+	var driver_email = req.body.email;
+	var dealer_email = req.session.email;
+	const doc = await dealerModel.findOne({email: dealer_email}).exec();
+	var val = doc.relation;
+
+	const index = val.indexOf(driver_email);
+	if(index > -1)
+	{
+		val.splice(index, 1);
+		console.log(val);
+	}
+
+	dealerModel.updateOne({email:dealer_email},{relation : val},{upsert: false},
+	function(err, doc) {
+		if (err) return res.send(500, {error: err});
+		return res.redirect('/dealer/booked');
+	});
+
+});
 
 module.exports = router;
