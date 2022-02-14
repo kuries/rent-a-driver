@@ -25,6 +25,10 @@ img {
     flex-direction: column;
 }
 
+.middlediv h2 {
+    text-align: center;
+}
+
 .button {
     border: none;
     width: 100px;

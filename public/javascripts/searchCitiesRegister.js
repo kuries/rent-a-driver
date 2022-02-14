@@ -36,33 +36,103 @@ var citiesByState = {'Andaman and Nicobar Islands': ['Port Blair', ],
 'West Bengal': ['Alipurduar', 'Asansol', 'Barddhaman', 'Bhatpara', 'Haldia', 'Haora', 'Kolkata ', 'Krishnanagar', 'Shiliguri', ],
 }
 
-function fromMakeSubmenu(value) {
+function makeSubmenu1(value) {
+    console.log(2);
     if(value.length==0) 
-        document.getElementById("fromCity").innerHTML = "<option></option>";
+        document.getElementById("citySelect1").innerHTML = "<option></option>";
     else {
         let citiesOptions = "";
         for(cityId in citiesByState[value]) {
             citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
         }
-        document.getElementById("fromCity").innerHTML = citiesOptions;
+        document.getElementById("citySelect1").innerHTML = citiesOptions;
     }
-    var select = document.getElementById("fromState");
+    var select = document.getElementById("stateSelect1");
     for(state in citiesByState) {
         select.appendChild(new Option(state, state));
     }
 }
 
-function toMakeSubmenu(value) {
+function makeSubmenu2(value) {
+    console.log(2);
     if(value.length==0) 
-        document.getElementById("toCity").innerHTML = "<option></option>";
+        document.getElementById("citySelect2").innerHTML = "<option></option>";
     else {
         let citiesOptions = "";
         for(cityId in citiesByState[value]) {
             citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
         }
-        document.getElementById("toCity").innerHTML = citiesOptions;
+        document.getElementById("citySelect2").innerHTML = citiesOptions;
     }
-    var select = document.getElementById("toState");
+    var select = document.getElementById("stateSelect2");
+    for(state in citiesByState) {
+        select.appendChild(new Option(state, state));
+    }
+}
+
+function makeSubmenu3(value) {
+    console.log(2);
+    if(value.length==0) 
+        document.getElementById("citySelect3").innerHTML = "<option></option>";
+    else {
+        let citiesOptions = "";
+        for(cityId in citiesByState[value]) {
+            citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
+        }
+        document.getElementById("citySelect3").innerHTML = citiesOptions;
+    }
+    var select = document.getElementById("stateSelect3");
+    for(state in citiesByState) {
+        select.appendChild(new Option(state, state));
+    }
+}
+
+function makeSubmenu4(value) {
+    console.log(2);
+    if(value.length==0) 
+        document.getElementById("citySelect4").innerHTML = "<option></option>";
+    else {
+        let citiesOptions = "";
+        for(cityId in citiesByState[value]) {
+            citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
+        }
+        document.getElementById("citySelect4").innerHTML = citiesOptions;
+    }
+    var select = document.getElementById("stateSelect4");
+    for(state in citiesByState) {
+        select.appendChild(new Option(state, state));
+    }
+}
+
+function makeSubmenu5(value) {
+    console.log(2);
+    if(value.length==0) 
+        document.getElementById("citySelect5").innerHTML = "<option></option>";
+    else {
+        let citiesOptions = "";
+        for(cityId in citiesByState[value]) {
+            citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
+        }
+        document.getElementById("citySelect5").innerHTML = citiesOptions;
+    }
+    var select = document.getElementById("stateSelect5");
+    for(state in citiesByState) {
+        select.appendChild(new Option(state, state));
+    }
+}
+
+function makeSubmenu6(value) {
+    console.log(2);
+    if(value.length==0) 
+        document.getElementById("citySelect6").innerHTML = "<option></option>";
+    else {
+        let citiesOptions = "";
+        for(cityId in citiesByState[value]) {
+            citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
+        }
+        document.getElementById("citySelect6").innerHTML = citiesOptions;
+    }
+    var select = document.getElementById("stateSelect6");
     for(state in citiesByState) {
         select.appendChild(new Option(state, state));
     }
@@ -74,13 +144,27 @@ window.onload = () => {
         stateOptions+="<option>"+state+"</option>";
     }
 
-    //from
-    document.getElementById("fromState").innerHTML = stateOptions;
-    document.getElementById("fromState").selectedIndex = 0;
-    document.getElementById("fromCity").selectedIndex = 0;
+    document.getElementById("stateSelect1").innerHTML = stateOptions;
+    document.getElementById("stateSelect1").selectedIndex = 0;
+    document.getElementById("citySelect1").selectedIndex = 0;
+    
+    document.getElementById("stateSelect2").innerHTML = stateOptions;
+    document.getElementById("stateSelect2").selectedIndex = 0;
+    document.getElementById("citySelect2").selectedIndex = 0;
 
-    //to
-    document.getElementById("toState").innerHTML = stateOptions;
-    document.getElementById("toState").selectedIndex = 0;
-    document.getElementById("toCity").selectedIndex = 0;
+    document.getElementById("stateSelect3").innerHTML = stateOptions;
+    document.getElementById("stateSelect3").selectedIndex = 0;
+    document.getElementById("citySelect3").selectedIndex = 0;
+    
+    document.getElementById("stateSelect4").innerHTML = stateOptions;
+    document.getElementById("stateSelect4").selectedIndex = 0;
+    document.getElementById("citySelect4").selectedIndex = 0;
+
+    document.getElementById("stateSelect5").innerHTML = stateOptions;
+    document.getElementById("stateSelect5").selectedIndex = 0;
+    document.getElementById("citySelect5").selectedIndex = 0;
+
+    document.getElementById("stateSelect6").innerHTML = stateOptions;
+    document.getElementById("stateSelect6").selectedIndex = 0;
+    document.getElementById("citySelect6").selectedIndex = 0;
 }

@@ -10,14 +10,14 @@ function authenticateDealer(req, res, next) {
     if (req.session.email && req.session.designation == "dealer") {
         next();
     } else {
-		// req.flash('error', 'Dealer unauthenticated');
+        // req.flash('error', 'Dealer unauthenticated');
         return res.redirect("/");
     }
 }
 
 function unauthenticateDealer(req, res, next) {
     if (req.session.email && req.session.designation == "dealer") {
-		req.flash('error', 'Dealer already authenticated');
+        req.flash("error", "Dealer already authenticated");
         return res.redirect("/");
     } else {
         next();
@@ -31,6 +31,7 @@ router.get("/register", unauthenticateDealer, function (req, res, next) {
 router.post("/register", async function (req, res) {
     hashedPassword = await bcrypt.hash(req.body.password, 10);
     req.body.password = hashedPassword;
+
     const new_dealer = new dealerModel(req.body);
 
     new_dealer.save(function (err, result) {
@@ -54,10 +55,10 @@ router.get("/", authenticateDealer, async function (req, res) {
     const dealerEntry = await dealerModel
         .findOne({ email: req.session.email })
         .exec();
-    const driverEntry = driverModel
+    const driverEntry = await driverModel
         .find({
             $or: [{ from: dealerEntry.city }, { to: dealerEntry.city }],
-        }).find({email : {$nin : dealerEntry.relation}});
+        }).find({email : {$nin : dealerEntry.relation}}).exec();
 
 	const place = {state:dealerEntry.state, city:dealerEntry.city};
     res.render("dealer", {
@@ -73,10 +74,27 @@ router.post("/", async (req, res) => {
     const dealerEntry = await dealerModel
         .findOne({ email: req.session.email })
         .exec();
-    const driverEntry = await driverModel
+
+    const data = await driverModel
         .find({
-            $or: [{ from: req.body.city }, { to: req.body.city }],
+            $and: [{ from: req.body.fromCity }, { to: req.body.toCity }],
         }).find({email : {$nin : dealerEntry.relation}}).exec();
+    
+    const fromc = req.body.fromCity;
+    const toc = req.body.toCity;
+
+    var driverEntry = new Array();
+    for(var entry of data){
+        for(var j=0; j<3; j++){
+            if(entry.from[j] == fromc && entry.to[j] == toc)
+            {
+                driverEntry.push(entry);
+                break;
+            }
+        }
+    }
+
+    console.log(driverEntry);
 
 	const place = {state:req.body.state, city:req.body.city};
 
@@ -157,32 +175,37 @@ router.post("/bookDriver", authenticateDealer, async function (req, res, next) {
         { upsert: false },
         function (err, doc) {
             if (err) return res.send(500, { error: err });
-            return res.redirect("/");
+            return res.redirect("/dealer/booked");
         }
     );
 });
 
 //deletes booked driver
-router.post('/deleteBookedDriver', authenticateDealer, async function(req, res, next)
-{
-	var driver_email = req.body.email;
-	var dealer_email = req.session.email;
-	const doc = await dealerModel.findOne({email: dealer_email}).exec();
-	var val = doc.relation;
+router.post(
+    "/deleteBookedDriver",
+    authenticateDealer,
+    async function (req, res, next) {
+        var driver_email = req.body.email;
+        var dealer_email = req.session.email;
+        const doc = await dealerModel.findOne({ email: dealer_email }).exec();
+        var val = doc.relation;
 
-	const index = val.indexOf(driver_email);
-	if(index > -1)
-	{
-		val.splice(index, 1);
-		console.log(val);
-	}
+        const index = val.indexOf(driver_email);
+        if (index > -1) {
+            val.splice(index, 1);
+            console.log(val);
+        }
 
-	dealerModel.updateOne({email:dealer_email},{relation : val},{upsert: false},
-	function(err, doc) {
-		if (err) return res.send(500, {error: err});
-		return res.redirect('/dealer/booked');
-	});
-
-});
+        dealerModel.updateOne(
+            { email: dealer_email },
+            { relation: val },
+            { upsert: false },
+            function (err, doc) {
+                if (err) return res.send(500, { error: err });
+                return res.redirect("/dealer/booked");
+            }
+        );
+    }
+);
 
 module.exports = router;

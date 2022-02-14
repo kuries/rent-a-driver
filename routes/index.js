@@ -21,7 +21,7 @@ router.get("/", function (req, res, next) {
 	}
 	else
 	{
-		res.render("index", { title: "Express", check: false });
+		res.render("index", { title: "Home", check: false });
 	}
 });
 

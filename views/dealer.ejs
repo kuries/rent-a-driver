@@ -40,8 +40,8 @@
                 <div class="row">
                     <!-- <h1><%= title %></h1> -->
                     <h2>Your Name: <%= name %></h2>
-                    <h2>State: <%=place.state%></h2>
-                    <h2>City: <%=place.city%></h2>
+                    <h2>Current State: <%=place.state%></h2>
+                    <h2>Current City: <%=place.city%></h2>
                     <!-- <p>Welcome to <%= title %></p> -->
                 </div>
             </div>
@@ -50,11 +50,22 @@
         <section class="search_sel">
             <form action="/dealer" method="POST">
                 <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-end">
-                    <select class="btn btn-info" name="state" id="stateSelect" size="1" onchange="makeSubmenu(this.value)">
+                    <h4>From: </h4>
+                    <select class="btn btn-info" name="fromState" id="fromState" size="1" onchange="fromMakeSubmenu(this.value)">
                         <option value="" disabled selected>Choose State</option>
                     </select>
         
-                    <select class="btn btn-secondary" name="city" id="citySelect" size="1" >
+                    <select class="btn btn-secondary" name="fromCity" id="fromCity" size="1" >
+                        <option value="" disabled selected>Choose City</option>
+                        <option></option>
+                    </select>
+                    
+                    <h4>To: </h4>
+                    <select class="btn btn-info" name="toState" id="toState" size="1" onchange="toMakeSubmenu(this.value)">
+                        <option value="" disabled selected>Choose State</option>
+                    </select>
+        
+                    <select class="btn btn-secondary" name="toCity" id="toCity" size="1" >
                         <option value="" disabled selected>Choose City</option>
                         <option></option>
                     </select>
