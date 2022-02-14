@@ -17,8 +17,8 @@ async function sendOtpMail(details) {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "noreply.rentadriver4@gmail.com",
-            pass: "rentadriver4",
+            user: process.env.MAIL_ID,
+            pass: process.env.MAIL_PASSWORD,
         },
     });
 
@@ -49,19 +49,20 @@ router.post("/login", async (req, res) => {
     // console.log(req.body);
     var checkmail = req.body.email;
 
-    // var desig = req.body.designation;
-
     //check the dealer and driver db
     var ret_dealer = await DealerModel.findOne({ email: checkmail }).exec();
 
     var ret_driver = await DriverModel.findOne({ email: checkmail }).exec();
     if (!ret_dealer && !ret_driver) {
+        req.flash("error", "Email not registered!");
         return res.redirect("/");
     }
     if (ret_dealer && req.body.designation == "driver") {
+        req.flash("error", "Email not registered as a driver!");
         return res.redirect("/");
     }
     if (ret_driver && req.body.designation == "dealer") {
+        req.flash("error", "Email not registered as a dealer!");
         return res.redirect("/");
     }
 
@@ -99,7 +100,7 @@ router.post("/login", async (req, res) => {
 
         try {
             await otp.save();
-            res.render("otpVerify", { email: req.body.email});
+            res.render("otpVerify", { email: req.body.email, flashMessage: req.flash("error")});
         } catch (error) {
             res.status(500).send(error);
         }
@@ -133,11 +134,10 @@ router.post("/verify", async (req, res) => {
         req.session.email = email;
         req.session.designation = designation;
         req.session.save();
-        console.log(req.session.user);
         res.redirect("/");
     } else {
-        // res.redirect('');
-        res.render('otpVerify', { email: req.body.email});
+        req.flash("error", "Wrong OTP entered!");
+        res.render('otpVerify', { email: req.body.email, flashMessage: req.flash("error")});
         console.log("err");
     }
 });

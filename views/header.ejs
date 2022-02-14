@@ -4,3 +4,15 @@
         <a class="navbar-brand" href="/">Rent-A-Driver</a>
     </div>
 </nav>
+
+
+<% if (typeof flashMessage != 'undefined'  && flashMessage.length > 0) {%>
+    <div class="row">
+        <div class="col-12 text-center d-flex justify-content-center" style="padding-top: 60px;">
+            <div id="myalert" class="alert alert-warning alert-dismissible fade show" role="alert">
+                <%= flashMessage[0] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div> 
+        </div>
+    </div>
+<% } %>
