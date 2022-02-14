@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 
 const connectEnsureLogin = require('connect-ensure-login'); //authorization
 
-
+var app = express();
 
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
@@ -21,9 +21,7 @@ var driverRouter = require("./routes/driverRoute");
 
 var dealerRouter = require("./routes/dealerRoute");
 var otpRouter = require("./routes/otpRoute");
-
-var app = express();
-
+const exp = require("constants");
 
 
 // view engine setup
@@ -35,6 +33,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "/public")));
+// app.use(flash())
 
 //session
 const oneDay = 1000 * 60 * 60 * 24;
@@ -55,6 +54,7 @@ app.use("/driver", driverRouter);
 app.use("/dealer", dealerRouter);
 
 app.use("/otp", otpRouter);
+
 
 //mongoose connection
 mongoose.connect(

@@ -32,9 +32,9 @@
         <section class="usr_inf" id="usr_inf" >
             <div class="container position-relative">
                 <div class="row">
-                    <h1><%= title %></h1>
-                    <h2>Your Name: <%= title %></h2>
-                    <p>Welcome to <%= title %></p>
+                    <!-- <h1><%= title %></h1> -->
+                    <h2>Your Name: <%= name %></h2>
+                    <!-- <p>Welcome to <%= title %></p> -->
                 </div>
             </div>
         </section>
@@ -43,51 +43,49 @@
         <section class="dcard" id="dcard">
             <div class="container">
                 <div class="row">
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
+                    <div class="col-12">
+                        <p class="lead d-flex justify-content-center mb-5 mx-auto" style="border: 1px solid;border-radius: 10px; box-sizing: border-box;">You have been booked by <%= number %> dealers</p>
                     </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
+                    
+                    <% for(var i = 0; i < result.length; i++) { %>
+                        <div class="card md-3" style="width: 20rem;">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= result[i].name %></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Mobile: <%= result[i].mobileNo %></h6>
+                                <p class="card-text">Route Details</p>
+                                <!-- <a href="#" class="card-link btn btn-warning">Book Now</a> -->
+                                <!-- Button trigger modal -->
+                                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModal<%= i %>">View</a>
+                                
+                                <!-- Modal -->
+                                
+                                <div class="modal fade" id="detailsModal<%= i %>" tabindex="-1" aria-labelledby="detailsModalLabe<%= i %>" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="detailsModalLabel<%= i %>"><%= result[i].name %></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h6 class="mb-2">Email: <%= result[i].email %></h6>
+                                            <h6 class="mb-2">Mobile: <%= result[i].mobileNo %></h6>
+                                            <h6 class="mb-2">Material Nature: <%= result[i].materialNature %></h6>
+                                            <h6 class="mb-2">Material Weight: <%= result[i].materialWeight %></h6>
+                                            <h6 class="mb-2">Quantity: <%= result[i].quantity %></h6>
+                                            <h6 class="mb-2">City: <%= result[i].city %></h6>
+                                            <h6 class="mb-2">State: <%= result[i].state %></h6>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        
+                                        
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                    <div class="card md-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
+                    <% } %>
                 </div>
             </div>
         </section>

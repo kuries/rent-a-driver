@@ -33,6 +33,46 @@
                 </div>
             </div>
         </nav>        
+        <ul>
+            <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
+                <div class="row">
+                    <div class="col-12 text-center d-flex justify-content-center" style="padding-top: 30px;">
+                        <div id="myalert" class="alert alert-warning alert-dismissible fade show" role="alert">
+            
+                            <li><%= error.message %></li>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div> 
+                    </div>
+                </div>
+            <% }) %> <% } %>
+        </ul>
+        
+        <ul>
+            <% if(messages.success_msg){%>
+                <div class="row">
+                    <div class="col-12 text-center d-flex justify-content-center" style="padding-top: 30px;">
+                        <div id="myalert" class="alert alert-success alert-dismissible fade show" role="alert">
+            
+                            <li><%= messages.success_msg %></li>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div> 
+                    </div>
+                </div>
+            <% } %>
+        </ul>
+        <ul>
+            <% if (messages.error) { %>
+                <div class="row">
+                    <div class="col-12 text-center d-flex justify-content-center" style="padding-top: 30px;">
+                        <div id="myalert" class="alert alert-warning alert-dismissible fade show" role="alert">
+            
+                            <li><%= messages.error %></li>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div> 
+                    </div>
+                </div>
+            <% } %>
+        </ul>
 
         <!-- User Info -->
         <section class="usr_inf" id="usr_inf" >
@@ -66,7 +106,9 @@
         <section class="dcard" id="dcard">
             <div class="container">
                 <div class="row">
-                    <p class="lead d-flex justify-content-start">Available drivers: </p>
+                    <div class="col-12">
+                        <p class="lead d-flex justify-content-center mb-5 mx-auto" style="border: 1px solid;border-radius: 10px; box-sizing: border-box;">Avaliable drivers: <%= number %> </p>
+                    </div>
                     <% for(var i = 0; i < result.length; i++) { %>
                         <div class="card md-3" style="width: 20rem;">
                             <div class="card-body">
