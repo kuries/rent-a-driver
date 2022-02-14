@@ -61,13 +61,16 @@ router.get("/", authenticateDealer, async function (req, res) {
         })
         .find({ email: { $nin: dealerEntry.relation } })
         .exec();
-
+    
+    const currentCity = true;
     const place = { state: dealerEntry.state, city: dealerEntry.city };
+
     res.render("dealer", {
         title: "Dealer",
         name: dealerEntry.name,
         place: place,
         result: driverEntry,
+        currentCity: currentCity,
         check: true,
     });
 });
@@ -97,15 +100,15 @@ router.post("/", async (req, res) => {
         }
     }
 
-    console.log(driverEntry);
-
-    const place = { state: req.body.state, city: req.body.city };
+    const currentCity = false;
+    const place = { fromCity: req.body.fromCity, toCity: req.body.toCity };
 
     res.render("dealer", {
         title: "Dealer",
         name: dealerEntry.name,
         place: place,
         result: driverEntry,
+        currentCity: currentCity,
         check: true,
     });
 });

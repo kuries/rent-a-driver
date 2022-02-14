@@ -40,8 +40,13 @@
                 <div class="row">
                     <!-- <h1><%= title %></h1> -->
                     <h2>Your Name: <%= name %></h2>
-                    <h2>Current State: <%=place.state%></h2>
-                    <h2>Current City: <%=place.city%></h2>
+                    <% if(currentCity == true){ %>
+                        <h2>Current State: <%=place.state%></h2>
+                        <h2>Current City: <%=place.city%></h2>
+                    <% } else{ %>
+                        <h2>From: <%=place.fromCity%></h2>
+                        <h2>To: <%=place.toCity%></h2>
+                    <% } %>
                     <!-- <p>Welcome to <%= title %></p> -->
                 </div>
             </div>
