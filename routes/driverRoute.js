@@ -39,10 +39,15 @@ router.post('/register', async function(req, res) {
 	hashedPassword = await bcrypt.hash(req.body.password, 10);
 	req.body.password = hashedPassword;
 
-	var route1 = [req.body.route1_state, route1_city];
-	var route2 = [req.body.route2_state, route2_city];
-	var route3 = [req.body.route3_state, route3_city];
-	req.body.routes.push([route1, route2, route3]);
+	req.body.from = [];
+	req.body.from.push(req.body.route1_city);
+	req.body.from.push(req.body.route3_city);
+	req.body.from.push(req.body.route5_city);
+
+	req.body.to = []
+	req.body.to.push(req.body.route2_city);
+	req.body.to.push(req.body.route4_city);
+	req.body.to.push(req.body.route6_city);
 
   	const new_driver = new driverModel(req.body);
 	

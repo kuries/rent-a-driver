@@ -27,6 +27,7 @@ router.get("/register", unauthenticateDealer, function (req, res, next) {
 router.post("/register", async function (req, res) {
     hashedPassword = await bcrypt.hash(req.body.password, 10);
     req.body.password = hashedPassword;
+
     const new_dealer = new dealerModel(req.body);
 
     new_dealer.save(function (err, result) {

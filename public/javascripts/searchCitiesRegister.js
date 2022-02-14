@@ -53,12 +53,6 @@ function makeSubmenu1(value) {
     }
 }
 
-function displaySelected1() { 
-    var country = document.getElementById("stateSelect1").value;
-    var city = document.getElementById("citySelect1").value;
-    alert(country+"\n"+city);
-}
-
 function makeSubmenu2(value) {
     console.log(2);
     if(value.length==0) 
@@ -74,12 +68,6 @@ function makeSubmenu2(value) {
     for(state in citiesByState) {
         select.appendChild(new Option(state, state));
     }
-}
-
-function displaySelected2() { 
-    var country = document.getElementById("stateSelect2").value;
-    var city = document.getElementById("citySelect2").value;
-    alert(country+"\n"+city);
 }
 
 function makeSubmenu3(value) {
@@ -99,10 +87,55 @@ function makeSubmenu3(value) {
     }
 }
 
-function displaySelected3() { 
-    var country = document.getElementById("stateSelect3").value;
-    var city = document.getElementById("citySelect3").value;
-    alert(country+"\n"+city);
+function makeSubmenu4(value) {
+    console.log(2);
+    if(value.length==0) 
+        document.getElementById("citySelect4").innerHTML = "<option></option>";
+    else {
+        let citiesOptions = "";
+        for(cityId in citiesByState[value]) {
+            citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
+        }
+        document.getElementById("citySelect4").innerHTML = citiesOptions;
+    }
+    var select = document.getElementById("stateSelect4");
+    for(state in citiesByState) {
+        select.appendChild(new Option(state, state));
+    }
+}
+
+function makeSubmenu5(value) {
+    console.log(2);
+    if(value.length==0) 
+        document.getElementById("citySelect5").innerHTML = "<option></option>";
+    else {
+        let citiesOptions = "";
+        for(cityId in citiesByState[value]) {
+            citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
+        }
+        document.getElementById("citySelect5").innerHTML = citiesOptions;
+    }
+    var select = document.getElementById("stateSelect5");
+    for(state in citiesByState) {
+        select.appendChild(new Option(state, state));
+    }
+}
+
+function makeSubmenu6(value) {
+    console.log(2);
+    if(value.length==0) 
+        document.getElementById("citySelect6").innerHTML = "<option></option>";
+    else {
+        let citiesOptions = "";
+        for(cityId in citiesByState[value]) {
+            citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
+        }
+        document.getElementById("citySelect6").innerHTML = citiesOptions;
+    }
+    var select = document.getElementById("stateSelect6");
+    for(state in citiesByState) {
+        select.appendChild(new Option(state, state));
+    }
 }
 
 window.onload = () => {
@@ -122,4 +155,16 @@ window.onload = () => {
     document.getElementById("stateSelect3").innerHTML = stateOptions;
     document.getElementById("stateSelect3").selectedIndex = 0;
     document.getElementById("citySelect3").selectedIndex = 0;
+    
+    document.getElementById("stateSelect4").innerHTML = stateOptions;
+    document.getElementById("stateSelect4").selectedIndex = 0;
+    document.getElementById("citySelect4").selectedIndex = 0;
+
+    document.getElementById("stateSelect5").innerHTML = stateOptions;
+    document.getElementById("stateSelect5").selectedIndex = 0;
+    document.getElementById("citySelect5").selectedIndex = 0;
+
+    document.getElementById("stateSelect6").innerHTML = stateOptions;
+    document.getElementById("stateSelect6").selectedIndex = 0;
+    document.getElementById("citySelect6").selectedIndex = 0;
 }
