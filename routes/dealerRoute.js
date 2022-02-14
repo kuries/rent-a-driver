@@ -1,16 +1,15 @@
 var express = require("express");
 const bcrypt = require("bcrypt");
 // const flash = require("express-flash");
-const app = require("../app");
 const dealerModel = require("../models/dealer");
 const driverModel = require("../models/driver");
+const flash = require("connect-flash/lib/flash");
 var router = express.Router();
 
 function authenticateDealer(req, res, next) {
     if (req.session.email && req.session.designation == "dealer") {
         next();
     } else {
-        // req.flash('error', 'Dealer unauthenticated');
         return res.redirect("/");
     }
 }
@@ -133,8 +132,10 @@ router.get("/booked", authenticateDealer, async function (req, res) {
 
 //functions for handling login for dealers
 router.get("/login", unauthenticateDealer, function (req, res, next) {
+    // const msg = req.flash('error');
     res.render("login", {
         id: "dealer",
+        flashMessage: req.flash('error'),
         check: false,
     });
 });
@@ -143,7 +144,11 @@ router.post("/login", async function (req, res) {
     console.log(req.body.email);
     const user = await dealerModel.findOne({ email: req.body.email }).exec();
 
-    if (!user) return res.redirect("/dealer/login");
+    if (!user) 
+    {
+        req.flash("error", "Email not found!");
+        return res.redirect("/dealer/login");
+    }
 
     var isValid = await bcrypt
         .compare(req.body.password, user.password)
@@ -159,6 +164,7 @@ router.post("/login", async function (req, res) {
         req.session.save();
         res.redirect("/dealer");
     } else {
+        req.flash("error", "Password not matched!");
         res.redirect("/dealer/login");
     }
 });

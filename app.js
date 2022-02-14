@@ -1,6 +1,7 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
+require("dotenv").config();
 
 const bodyParser = require('body-parser');
 
@@ -13,6 +14,7 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 var MongoStore = require("connect-mongo");
 const session = require("express-session");
+var flash = require("express-flash");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -33,14 +35,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "/public")));
-// app.use(flash())
+app.use(flash());
 
 //session
 const oneDay = 1000 * 60 * 60 * 24;
 
 app.use(session({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    store: MongoStore.create({ mongoUrl: "mongodb+srv://beastkun:beastkun@cluster0.vgnsl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"}),
+    secret: process.env.SECRET_KEY,
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI}),
     saveUninitialized:true,
     cookie: { maxAge: oneDay },
     resave: false 
@@ -64,9 +66,6 @@ mongoose.connect(
         useUnifiedTopology: true,
     }
 );
-
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

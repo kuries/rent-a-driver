@@ -23,7 +23,7 @@ router.get("/", function (req, res, next) {
 	}
 	else
 	{
-		res.render("index", { title: "Home", check: false });
+		res.render("index", { title: "Home", check: false , flashMessage: req.flash("error")});
 	}
 });
 
