@@ -34,11 +34,17 @@
 				<div class="mb-3 mt-3 form-group">
 					<input type="number" name="quantity" placeholder="Quantity of Material" required="" class="form-control">
 				</div>
-				<div class="mb-3 mt-3 form-group">
-					<input type="text" name="city" placeholder="City" required="" class="form-control">
-				</div>
-				<div class="mb-3 mt-3 form-group">
-					<input type="text" name="state" placeholder="State" required="" class="form-control">
+				<div class="mb-3 mt-3 row form-group">
+					<div class="col-sm-7">
+						<select name="state" class="form-control" id="stateSelect" size="1" onchange="makeSubmenu(this.value)">
+							<option value="" disabled selected>Choose State</option>
+						</select>
+					</div>
+					<div class="col-sm">
+						<select name="city" class="form-control" id="citySelect" size="1" >
+							<option value="" disabled selected>Choose City</option>
+						</select>
+					</div>
 				</div>
 				<div class="mb-3 mt-3 form-group">
 					<input type="password" name="password" placeholder="Password" required="" class="form-control">
