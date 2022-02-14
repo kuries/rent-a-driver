@@ -42,19 +42,33 @@ router.get("/register", unauthenticateDriver, function (req, res, next) {
     res.render("driver_register", { check: false });
 });
 
-router.post("/register", async function (req, res) {
-    hashedPassword = await bcrypt.hash(req.body.password, 10);
-    req.body.password = hashedPassword;
-    const new_driver = new driverModel(req.body);
+router.post('/register', async function(req, res) {
+	hashedPassword = await bcrypt.hash(req.body.password, 10);
+	req.body.password = hashedPassword;
 
-    new_driver.save(function (err, result) {
-        if (err) {
-            if (err.name == "ValidationError") {
-                for (field in err.errors) {
-                    console.log(err.errors[field].message);
-                }
-            }
-        } else {
+	req.body.from = [];
+	req.body.from.push(req.body.route1_city);
+	req.body.from.push(req.body.route3_city);
+	req.body.from.push(req.body.route5_city);
+
+	req.body.to = []
+	req.body.to.push(req.body.route2_city);
+	req.body.to.push(req.body.route4_city);
+	req.body.to.push(req.body.route6_city);
+
+  	const new_driver = new driverModel(req.body);
+	
+	new_driver.save(function(err, result) {
+		if (err)
+		{
+			if(err.name == 'ValidationError') 
+			{
+				for (field in err.errors)
+				{
+				console.log(err.errors[field].message);
+				}
+			}
+		} else {
             console.log("Success");
             res.redirect("/driver/login");
         }
