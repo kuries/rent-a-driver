@@ -1,8 +1,16 @@
 body {
-    background: linear-gradient(rgba(255,255,255,.7), rgba(255, 255, 255, 0.7)), url('/img/background.jpg');
+    background: url('/img/image.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;   
+}
+
+
+.navbar-custom {
+    /*background-image: radial-gradient( circle 976px at 51.2% 51%,  rgba(11,27,103,1) 0%, rgba(16,66,157,1) 0%, rgba(11,27,103,1) 17.3%, rgba(11,27,103,1) 58.8%, rgba(11,27,103,1) 71.4%, rgba(16,66,157,1) 100.2%, rgba(187,187,187,1) 100.2% );*/
+    /*background: linear-gradient(to bottom, rgba(11, 27, 103, 1) 40%, rgba(0, 0, 0, 0) 100%);*/
+    background: rgba(0,0,0,0.5);
+
 }
 
 img {
@@ -18,19 +26,22 @@ img {
 .leftside {
     display: flex;
     flex-direction: column;
+    background: linear-gradient(rgba(0, 140, 186, 0.3), rgba(0, 140, 186, 0.3));
 }
 
 .rightside {
     display: flex;
     flex-direction: column;
+    background: linear-gradient(rgba(17, 34, 182, 0.3), rgba(17, 34, 182, 0.3));
 }
 
 .middlediv h2 {
     text-align: center;
+    color: white;
 }
 
 .button {
-    border: none;
+    border: 2px solid white;
     width: 100px;
     padding: 10px 10px;
     text-align: center;
@@ -43,21 +54,21 @@ img {
 }
 
 .button1 {
-    background-color: #008CBA; 
     color: white;
 }
   
 .button1:hover {
-    background-color: white;
-    color: #008CBA;
+    color: white;
+    background-color: #0750a3;
+    border: 2px solid transparent;
 }
 
 .button2 {
-    background-color: white; 
-    color: #008CBA; 
+    color: white;
 }
   
 .button2:hover {
-    background-color: #008CBA;
     color: white;
+    background-color: #0750a3;
+    border: 2px solid transparent;
 }
