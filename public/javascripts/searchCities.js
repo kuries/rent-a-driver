@@ -36,6 +36,23 @@ var citiesByState = {'Andaman and Nicobar Islands': ['Port Blair', ],
 'West Bengal': ['Alipurduar', 'Asansol', 'Barddhaman', 'Bhatpara', 'Haldia', 'Haora', 'Kolkata ', 'Krishnanagar', 'Shiliguri', ],
 }
 
+function makeSubmenu(value) {
+    console.log(2);
+    if(value.length==0) 
+        document.getElementById("citySelect").innerHTML = "<option></option>";
+    else {
+        let citiesOptions = "";
+        for(cityId in citiesByState[value]) {
+            citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
+        }
+        document.getElementById("citySelect").innerHTML = citiesOptions;
+    }
+    var select = document.getElementById("stateSelect");
+    for(state in citiesByState) {
+        select.appendChild(new Option(state, state));
+    }
+}
+
 function fromMakeSubmenu(value) {
     if(value.length==0) 
         document.getElementById("fromCity").innerHTML = "<option></option>";
@@ -73,6 +90,11 @@ window.onload = () => {
     for(state in citiesByState) {
         stateOptions+="<option>"+state+"</option>";
     }
+
+    //dealer register
+    document.getElementById("stateSelect").innerHTML = stateOptions;
+    document.getElementById("stateSelect").selectedIndex = 0;
+    document.getElementById("citySelect").selectedIndex = 0;
 
     //from
     document.getElementById("fromState").innerHTML = stateOptions;
