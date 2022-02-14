@@ -58,13 +58,15 @@ router.get("/", authenticateDealer, async function (req, res) {
     const driverEntry = await driverModel
         .find({
             $or: [{ from: dealerEntry.city }, { to: dealerEntry.city }],
-        }).find({email : {$nin : dealerEntry.relation}}).exec();
+        })
+        .find({ email: { $nin: dealerEntry.relation } })
+        .exec();
 
-	const place = {state:dealerEntry.state, city:dealerEntry.city};
+    const place = { state: dealerEntry.state, city: dealerEntry.city };
     res.render("dealer", {
         title: "Dealer",
         name: dealerEntry.name,
-		place: place,
+        place: place,
         result: driverEntry,
         check: true,
     });
@@ -78,16 +80,17 @@ router.post("/", async (req, res) => {
     const data = await driverModel
         .find({
             $and: [{ from: req.body.fromCity }, { to: req.body.toCity }],
-        }).find({email : {$nin : dealerEntry.relation}}).exec();
-    
+        })
+        .find({ email: { $nin: dealerEntry.relation } })
+        .exec();
+
     const fromc = req.body.fromCity;
     const toc = req.body.toCity;
 
     var driverEntry = new Array();
-    for(var entry of data){
-        for(var j=0; j<3; j++){
-            if(entry.from[j] == fromc && entry.to[j] == toc)
-            {
+    for (var entry of data) {
+        for (var j = 0; j < 3; j++) {
+            if (entry.from[j] == fromc && entry.to[j] == toc) {
                 driverEntry.push(entry);
                 break;
             }
@@ -96,12 +99,12 @@ router.post("/", async (req, res) => {
 
     console.log(driverEntry);
 
-	const place = {state:req.body.state, city:req.body.city};
+    const place = { state: req.body.state, city: req.body.city };
 
     res.render("dealer", {
         title: "Dealer",
         name: dealerEntry.name,
-		place: place,
+        place: place,
         result: driverEntry,
         check: true,
     });
@@ -113,9 +116,10 @@ router.get("/booked", authenticateDealer, async function (req, res) {
         .exec();
 
     const driverEntry = await driverModel
-        .find({email : {$in : dealerEntry.relation}}).exec();
+        .find({ email: { $in: dealerEntry.relation } })
+        .exec();
 
-	console.log(dealerEntry.relation);
+    console.log(dealerEntry.relation);
     res.render("booked", {
         title: "Dealer",
         name: dealerEntry.name,
@@ -136,25 +140,24 @@ router.post("/login", async function (req, res) {
     console.log(req.body.email);
     const user = await dealerModel.findOne({ email: req.body.email }).exec();
 
-	if(!user)	//email check
-		res.redirect('/dealer/login');
+    if (!user) return res.redirect("/dealer/login");
 
-	var isValid = await bcrypt.compare(req.body.password, user.password)
-		.then((result) => {
-			return result;
-		})
-		.catch((err) => console.log(err));
+    var isValid = await bcrypt
+        .compare(req.body.password, user.password)
+        .then((result) => {
+            return result;
+        })
+        .catch((err) => console.log(err));
 
-	if (isValid) {	//password check
-		req.session.email = req.body.email;
-		req.session.designation = "dealer";
-		req.session.save();
-		res.redirect("/dealer");
-	}
-	else{
-		res.redirect('/dealer/login');
-	}
-
+    if (isValid) {
+        //password check
+        req.session.email = req.body.email;
+        req.session.designation = "dealer";
+        req.session.save();
+        res.redirect("/dealer");
+    } else {
+        res.redirect("/dealer/login");
+    }
 });
 
 //display booked drivers

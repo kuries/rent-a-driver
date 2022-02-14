@@ -26,7 +26,7 @@ router.get("/", authenticateDriver, async function (req, res, next) {
         .exec();
     const dealerEntry = await dealerModel
         .find({
-            email: {$in : driverEntry.relation}
+            email: { $in: driverEntry.relation },
         })
         .exec();
     res.render("driver", {
@@ -42,33 +42,30 @@ router.get("/register", unauthenticateDriver, function (req, res, next) {
     res.render("driver_register", { check: false });
 });
 
-router.post('/register', async function(req, res) {
-	hashedPassword = await bcrypt.hash(req.body.password, 10);
-	req.body.password = hashedPassword;
+router.post("/register", async function (req, res) {
+    hashedPassword = await bcrypt.hash(req.body.password, 10);
+    req.body.password = hashedPassword;
 
-	req.body.from = [];
-	req.body.from.push(req.body.route1_city);
-	req.body.from.push(req.body.route3_city);
-	req.body.from.push(req.body.route5_city);
+    req.body.from = [];
+    req.body.from.push(req.body.route1_city);
+    req.body.from.push(req.body.route3_city);
+    req.body.from.push(req.body.route5_city);
 
-	req.body.to = []
-	req.body.to.push(req.body.route2_city);
-	req.body.to.push(req.body.route4_city);
-	req.body.to.push(req.body.route6_city);
+    req.body.to = [];
+    req.body.to.push(req.body.route2_city);
+    req.body.to.push(req.body.route4_city);
+    req.body.to.push(req.body.route6_city);
 
-  	const new_driver = new driverModel(req.body);
-	
-	new_driver.save(function(err, result) {
-		if (err)
-		{
-			if(err.name == 'ValidationError') 
-			{
-				for (field in err.errors)
-				{
-				console.log(err.errors[field].message);
-				}
-			}
-		} else {
+    const new_driver = new driverModel(req.body);
+
+    new_driver.save(function (err, result) {
+        if (err) {
+            if (err.name == "ValidationError") {
+                for (field in err.errors) {
+                    console.log(err.errors[field].message);
+                }
+            }
+        } else {
             console.log("Success");
             res.redirect("/driver/login");
         }
@@ -84,24 +81,24 @@ router.get("/login", unauthenticateDriver, function (req, res, next) {
 
 router.post("/login", async function (req, res) {
     const user = await driverModel.findOne({ email: req.body.email }).exec();
-	if(!user)	//email check
-		res.redirect('/driver/login');
+    if (!user) {
+        return res.redirect("/driver/login");
+    }
 
     var isValid = await bcrypt
-            .compare(req.body.password, user.password)
-            .then((result) => {
-                return result;
-            })
-            .catch((err) => console.log(err));
+        .compare(req.body.password, user.password)
+        .then((result) => {
+            return result;
+        })
+        .catch((err) => console.log(err));
 
-    if (isValid) {	//password check
+    if (isValid) {
+        //password check
         req.session.email = req.body.email;
         req.session.designation = "driver";
         req.session.save();
         res.redirect("/driver");
-    }
-	else
-		res.redirect('/driver/login');
+    } else res.redirect("/driver/login");
 });
 
 router.get("/data", async (request, response) => {
