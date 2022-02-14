@@ -74,7 +74,7 @@ router.post("/login", async function (req, res) {
 		res.redirect('/driver/login');
 
     var isValid = await bcrypt
-            .compare(req.body.password, docs.password)
+            .compare(req.body.password, user.password)
             .then((result) => {
                 return result;
             })

@@ -36,18 +36,33 @@ var citiesByState = {'Andaman and Nicobar Islands': ['Port Blair', ],
 'West Bengal': ['Alipurduar', 'Asansol', 'Barddhaman', 'Bhatpara', 'Haldia', 'Haora', 'Kolkata ', 'Krishnanagar', 'Shiliguri', ],
 }
 
-function makeSubmenu(value) {
-    console.log(2);
+function fromMakeSubmenu(value) {
     if(value.length==0) 
-        document.getElementById("citySelect").innerHTML = "<option></option>";
+        document.getElementById("fromCity").innerHTML = "<option></option>";
     else {
         let citiesOptions = "";
         for(cityId in citiesByState[value]) {
             citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
         }
-        document.getElementById("citySelect").innerHTML = citiesOptions;
+        document.getElementById("fromCity").innerHTML = citiesOptions;
     }
-    var select = document.getElementById("stateSelect");
+    var select = document.getElementById("fromState");
+    for(state in citiesByState) {
+        select.appendChild(new Option(state, state));
+    }
+}
+
+function toMakeSubmenu(value) {
+    if(value.length==0) 
+        document.getElementById("toCity").innerHTML = "<option></option>";
+    else {
+        let citiesOptions = "";
+        for(cityId in citiesByState[value]) {
+            citiesOptions+="<option>"+citiesByState[value][cityId]+"</option>";
+        }
+        document.getElementById("toCity").innerHTML = citiesOptions;
+    }
+    var select = document.getElementById("toState");
     for(state in citiesByState) {
         select.appendChild(new Option(state, state));
     }
@@ -58,7 +73,14 @@ window.onload = () => {
     for(state in citiesByState) {
         stateOptions+="<option>"+state+"</option>";
     }
-    document.getElementById("stateSelect").innerHTML = stateOptions;
-    document.getElementById("stateSelect").selectedIndex = 0;
-    document.getElementById("citySelect").selectedIndex = 0;
+
+    //from
+    document.getElementById("fromState").innerHTML = stateOptions;
+    document.getElementById("fromState").selectedIndex = 0;
+    document.getElementById("fromCity").selectedIndex = 0;
+
+    //to
+    document.getElementById("toState").innerHTML = stateOptions;
+    document.getElementById("toState").selectedIndex = 0;
+    document.getElementById("toCity").selectedIndex = 0;
 }

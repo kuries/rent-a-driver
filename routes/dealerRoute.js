@@ -54,10 +54,10 @@ router.get("/", authenticateDealer, async function (req, res) {
     const dealerEntry = await dealerModel
         .findOne({ email: req.session.email })
         .exec();
-    const driverEntry = driverModel
+    const driverEntry = await driverModel
         .find({
             $or: [{ from: dealerEntry.city }, { to: dealerEntry.city }],
-        }).find({email : {$nin : dealerEntry.relation}});
+        }).find({email : {$nin : dealerEntry.relation}}).exec();
 
 	const place = {state:dealerEntry.state, city:dealerEntry.city};
     res.render("dealer", {
@@ -73,10 +73,27 @@ router.post("/", async (req, res) => {
     const dealerEntry = await dealerModel
         .findOne({ email: req.session.email })
         .exec();
-    const driverEntry = await driverModel
+
+    const data = await driverModel
         .find({
-            $or: [{ from: req.body.city }, { to: req.body.city }],
+            $and: [{ from: req.body.fromCity }, { to: req.body.toCity }],
         }).find({email : {$nin : dealerEntry.relation}}).exec();
+    
+    const fromc = req.body.fromCity;
+    const toc = req.body.toCity;
+
+    var driverEntry = new Array();
+    for(var entry of data){
+        for(var j=0; j<3; j++){
+            if(entry.from[j] == fromc && entry.to[j] == toc)
+            {
+                driverEntry.push(entry);
+                break;
+            }
+        }
+    }
+
+    console.log(driverEntry);
 
 	const place = {state:req.body.state, city:req.body.city};
 
@@ -157,7 +174,7 @@ router.post("/bookDriver", authenticateDealer, async function (req, res, next) {
         { upsert: false },
         function (err, doc) {
             if (err) return res.send(500, { error: err });
-            return res.redirect("/");
+            return res.redirect("/dealer/booked");
         }
     );
 });
