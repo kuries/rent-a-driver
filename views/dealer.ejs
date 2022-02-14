@@ -8,7 +8,7 @@
     </head>
     <body>
         <!-- Navbar -->
-        <nav class=" navbar navbar-expand-lg fixed-top navbar-dark bg-primary bg-gradient">
+        <nav class=" navbar navbar-custom navbar-expand-lg fixed-top navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">Rent-A-Driver</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,31 +53,47 @@
         </section>
 
         <section class="search_sel">
-            <form action="/dealer" method="POST">
-                <div class="d-grid gap-2 d-md-block d-md-flex justify-content-md-end">
-                    <h4>From: </h4>
-                    <select class="btn btn-info" name="fromState" id="fromState" size="1" onchange="fromMakeSubmenu(this.value)">
-                        <option value="" disabled selected>Choose State</option>
-                    </select>
-        
-                    <select class="btn btn-secondary" name="fromCity" id="fromCity" size="1" >
-                        <option value="" disabled selected>Choose City</option>
-                        <option></option>
-                    </select>
-                    
-                    <h4>To: </h4>
-                    <select class="btn btn-info" name="toState" id="toState" size="1" onchange="toMakeSubmenu(this.value)">
-                        <option value="" disabled selected>Choose State</option>
-                    </select>
-        
-                    <select class="btn btn-secondary" name="toCity" id="toCity" size="1" >
-                        <option value="" disabled selected>Choose City</option>
-                        <option></option>
-                    </select>
-                    
-                    <button class="btn btn-dark">Show</button>
+            <div class="container">
+                <div>
+                    <form action="/dealer" method="POST">
+                        <div class="row form-group">
+                            <div class="col-sm-1">
+                                <!--<h4 style="color: white;">From: </h4>-->
+                                <label class="col-form-label" style="color: white;">From: </label>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="btn btn-outline-light form-control" name="fromState" id="fromState" size="1" onchange="fromMakeSubmenu(this.value)">
+                                    <option value="" disabled selected>Choose State</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="btn btn-outline-light form-control" name="fromCity" id="fromCity" size="1" >
+                                    <option value="" disabled selected>Choose City</option>
+                                    <option></option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1">
+                                <!--<h4 style="color: white;">To: </h4>-->
+                                <label class="col-form-label" style="color: white;">To: </label>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="btn btn-outline-light form-control" name="toState" id="toState" size="1" onchange="toMakeSubmenu(this.value)">
+                                    <option value="" disabled selected>Choose State</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="btn btn-outline-light form-control" name="toCity" id="toCity" size="1" >
+                                    <option value="" disabled selected>Choose City</option>
+                                    <option></option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1">
+                                <button class="btn btn-light">Show</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </section>
 
         <!-- Driver Card -->
