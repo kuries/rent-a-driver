@@ -161,7 +161,6 @@ router.post("/login", async function (req, res) {
 router.post("/bookDriver", authenticateDealer, async function (req, res, next) {
     var driver_email = req.body.email;
     var dealer_email = req.session.email;
-    console.log(driver_email);
 
     const dealer_doc = await dealerModel.findOne({ email: dealer_email }).exec();
     var val = dealer_doc.relation;
@@ -169,15 +168,20 @@ router.post("/bookDriver", authenticateDealer, async function (req, res, next) {
     var arr = [...val, driver_email];
     console.log(arr);
 
-    dealerModel.findOneAndUpdate(
-        { email: dealer_email },
-        { relation: arr },
-        { upsert: false },
-        function (err, doc) {
-            if (err) return res.send(500, { error: err });
-            return res.redirect("/dealer/booked");
-        }
-    );
+	const driver_doc = await driverModel.findOne({email: driver_email}).exec();
+	var reln = driver_doc.relation;
+
+	var driver_arr = [...reln, dealer_email];
+	console.log(driver_arr);
+
+    await dealerModel.findOneAndUpdate(
+	{ email: dealer_email },
+	{ relation: arr },
+	{ upsert: false }).exec();
+
+	await driverModel.findOneAndUpdate({email:driver_email}, {relation: driver_arr}, {upsert: false}).exec();
+    return res.redirect("/dealer/booked");
+
 });
 
 //deletes booked driver
@@ -196,15 +200,22 @@ router.post(
             console.log(val);
         }
 
-        dealerModel.updateOne(
-            { email: dealer_email },
-            { relation: val },
-            { upsert: false },
-            function (err, doc) {
-                if (err) return res.send(500, { error: err });
-                return res.redirect("/dealer/booked");
-            }
-        );
+		const doc_driver = await driverModel.findOne({ email: driver_email }).exec();
+        var val_driver = doc_driver.relation;
+
+        const index_driver = val_driver.indexOf(dealer_email);
+        if (index > -1) {
+            val_driver.splice(index_driver, 1);
+            console.log(val);
+        }
+
+
+        await dealerModel.updateOne({ email: dealer_email },{ relation: val },{ upsert: false }).exec();
+
+		await driverModel.updateOne({email: driver_email}, {relation:val_driver}, {upsert:false}).exec();
+
+        return res.redirect("/dealer/booked");
+
     }
 );
 

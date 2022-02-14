@@ -47,6 +47,7 @@ router.get("/login/:designation", async (req, res) => {
 router.post("/login", async (req, res) => {
     // console.log(req.body);
     var checkmail = req.body.email;
+
     // var desig = req.body.designation;
 
     //check the dealer and driver db
