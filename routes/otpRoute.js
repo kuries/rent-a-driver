@@ -57,11 +57,11 @@ router.post("/login", async (req, res) => {
         req.flash("error", "Email not registered!");
         return res.redirect("/");
     }
-    if (ret_dealer && req.body.designation == "driver") {
+    if (!ret_driver && req.body.designation == "driver") {
         req.flash("error", "Email not registered as a driver!");
         return res.redirect("/");
     }
-    if (ret_driver && req.body.designation == "dealer") {
+    if (!ret_dealer && req.body.designation == "dealer") {
         req.flash("error", "Email not registered as a dealer!");
         return res.redirect("/");
     }

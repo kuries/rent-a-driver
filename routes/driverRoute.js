@@ -75,6 +75,7 @@ router.post("/register", async function (req, res) {
 router.get("/login", unauthenticateDriver, function (req, res, next) {
     res.render("login", {
         id: "driver",
+        flashMessage: req.flash('error'),
         check: false,
     });
 });
@@ -82,6 +83,7 @@ router.get("/login", unauthenticateDriver, function (req, res, next) {
 router.post("/login", async function (req, res) {
     const user = await driverModel.findOne({ email: req.body.email }).exec();
     if (!user) {
+        req.flash("error", "Email not found!");
         return res.redirect("/driver/login");
     }
 
@@ -98,7 +100,10 @@ router.post("/login", async function (req, res) {
         req.session.designation = "driver";
         req.session.save();
         res.redirect("/driver");
-    } else res.redirect("/driver/login");
+    } else {
+        req.flash("error", "Password not matched!");
+        res.redirect("/driver/login");
+    }
 });
 
 router.get("/data", async (request, response) => {
